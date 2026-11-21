@@ -1,0 +1,1473 @@
+[
+ {
+  "id": "fullbody-2",
+  "name": "Full Body 2x",
+  "group": "Ganzkörper",
+  "description": "Zwei Ganzkörper-Einheiten pro Woche. Einstieg mit wenig Zeitaufwand.",
+  "rotating": false,
+  "days": [
+   {
+    "name": "Full Body A",
+    "rest": false,
+    "focus": [
+     "chest",
+     "lats",
+     "middle back",
+     "shoulders",
+     "quadriceps",
+     "hamstrings",
+     "glutes",
+     "biceps",
+     "triceps",
+     "abdominals"
+    ],
+    "weekday": null
+   },
+   {
+    "name": "Full Body B",
+    "rest": false,
+    "focus": [
+     "chest",
+     "lats",
+     "middle back",
+     "shoulders",
+     "quadriceps",
+     "hamstrings",
+     "glutes",
+     "biceps",
+     "triceps",
+     "abdominals"
+    ],
+    "weekday": null
+   }
+  ]
+ },
+ {
+  "id": "fullbody-3",
+  "name": "Full Body 3x",
+  "group": "Ganzkörper",
+  "description": "Drei Ganzkörper-Einheiten pro Woche, z. B. Mo/Mi/Fr.",
+  "rotating": false,
+  "days": [
+   {
+    "name": "Full Body A",
+    "rest": false,
+    "focus": [
+     "chest",
+     "lats",
+     "middle back",
+     "shoulders",
+     "quadriceps",
+     "hamstrings",
+     "glutes",
+     "biceps",
+     "triceps",
+     "abdominals"
+    ],
+    "weekday": null
+   },
+   {
+    "name": "Full Body B",
+    "rest": false,
+    "focus": [
+     "chest",
+     "lats",
+     "middle back",
+     "shoulders",
+     "quadriceps",
+     "hamstrings",
+     "glutes",
+     "biceps",
+     "triceps",
+     "abdominals"
+    ],
+    "weekday": null
+   },
+   {
+    "name": "Full Body C",
+    "rest": false,
+    "focus": [
+     "chest",
+     "lats",
+     "middle back",
+     "shoulders",
+     "quadriceps",
+     "hamstrings",
+     "glutes",
+     "biceps",
+     "triceps",
+     "abdominals"
+    ],
+    "weekday": null
+   }
+  ]
+ },
+ {
+  "id": "fullbody-4",
+  "name": "Full Body 4x",
+  "group": "Ganzkörper",
+  "description": "Vier Ganzkörper-Einheiten pro Woche für mehr Frequenz und Volumen.",
+  "rotating": false,
+  "days": [
+   {
+    "name": "Full Body A",
+    "rest": false,
+    "focus": [
+     "chest",
+     "lats",
+     "middle back",
+     "shoulders",
+     "quadriceps",
+     "hamstrings",
+     "glutes",
+     "biceps",
+     "triceps",
+     "abdominals"
+    ],
+    "weekday": null
+   },
+   {
+    "name": "Full Body B",
+    "rest": false,
+    "focus": [
+     "chest",
+     "lats",
+     "middle back",
+     "shoulders",
+     "quadriceps",
+     "hamstrings",
+     "glutes",
+     "biceps",
+     "triceps",
+     "abdominals"
+    ],
+    "weekday": null
+   },
+   {
+    "name": "Full Body C",
+    "rest": false,
+    "focus": [
+     "chest",
+     "lats",
+     "middle back",
+     "shoulders",
+     "quadriceps",
+     "hamstrings",
+     "glutes",
+     "biceps",
+     "triceps",
+     "abdominals"
+    ],
+    "weekday": null
+   },
+   {
+    "name": "Full Body D",
+    "rest": false,
+    "focus": [
+     "chest",
+     "lats",
+     "middle back",
+     "shoulders",
+     "quadriceps",
+     "hamstrings",
+     "glutes",
+     "biceps",
+     "triceps",
+     "abdominals"
+    ],
+    "weekday": null
+   }
+  ]
+ },
+ {
+  "id": "fbeod",
+  "name": "FBEOD (Full Body Every Other Day)",
+  "group": "Ganzkörper",
+  "description": "Ganzkörper jeden zweiten Tag, rotierend A/B/C. Keine festen Wochentage: Du trainierst, wenn du an der Reihe bist.",
+  "rotating": true,
+  "days": [
+   {
+    "name": "Full Body A",
+    "rest": false,
+    "focus": [
+     "chest",
+     "lats",
+     "middle back",
+     "shoulders",
+     "quadriceps",
+     "hamstrings",
+     "glutes",
+     "biceps",
+     "triceps",
+     "abdominals"
+    ],
+    "weekday": null
+   },
+   {
+    "name": "Full Body B",
+    "rest": false,
+    "focus": [
+     "chest",
+     "lats",
+     "middle back",
+     "shoulders",
+     "quadriceps",
+     "hamstrings",
+     "glutes",
+     "biceps",
+     "triceps",
+     "abdominals"
+    ],
+    "weekday": null
+   },
+   {
+    "name": "Full Body C",
+    "rest": false,
+    "focus": [
+     "chest",
+     "lats",
+     "middle back",
+     "shoulders",
+     "quadriceps",
+     "hamstrings",
+     "glutes",
+     "biceps",
+     "triceps",
+     "abdominals"
+    ],
+    "weekday": null
+   }
+  ]
+ },
+ {
+  "id": "ul-2",
+  "name": "Upper/Lower 2 Tage",
+  "group": "Upper/Lower",
+  "description": "Oberkörper und Unterkörper je einmal pro Woche.",
+  "rotating": false,
+  "days": [
+   {
+    "name": "Upper",
+    "rest": false,
+    "focus": [
+     "chest",
+     "lats",
+     "middle back",
+     "traps",
+     "shoulders",
+     "biceps",
+     "triceps"
+    ],
+    "weekday": null
+   },
+   {
+    "name": "Lower",
+    "rest": false,
+    "focus": [
+     "quadriceps",
+     "hamstrings",
+     "glutes",
+     "calves",
+     "abdominals"
+    ],
+    "weekday": null
+   }
+  ]
+ },
+ {
+  "id": "ulf-3",
+  "name": "Upper/Lower/Full Body 3 Tage",
+  "group": "Upper/Lower",
+  "description": "Upper, Lower und ein Ganzkörper-Tag.",
+  "rotating": false,
+  "days": [
+   {
+    "name": "Upper",
+    "rest": false,
+    "focus": [
+     "chest",
+     "lats",
+     "middle back",
+     "traps",
+     "shoulders",
+     "biceps",
+     "triceps"
+    ],
+    "weekday": null
+   },
+   {
+    "name": "Lower",
+    "rest": false,
+    "focus": [
+     "quadriceps",
+     "hamstrings",
+     "glutes",
+     "calves",
+     "abdominals"
+    ],
+    "weekday": null
+   },
+   {
+    "name": "Full Body",
+    "rest": false,
+    "focus": [
+     "chest",
+     "lats",
+     "middle back",
+     "shoulders",
+     "quadriceps",
+     "hamstrings",
+     "glutes",
+     "biceps",
+     "triceps",
+     "abdominals"
+    ],
+    "weekday": null
+   }
+  ]
+ },
+ {
+  "id": "ul-4",
+  "name": "Upper/Lower 4 Tage",
+  "group": "Upper/Lower",
+  "description": "Jeder Muskel zweimal pro Woche.",
+  "rotating": false,
+  "days": [
+   {
+    "name": "Upper A",
+    "rest": false,
+    "focus": [
+     "chest",
+     "lats",
+     "middle back",
+     "traps",
+     "shoulders",
+     "biceps",
+     "triceps"
+    ],
+    "weekday": null
+   },
+   {
+    "name": "Lower A",
+    "rest": false,
+    "focus": [
+     "quadriceps",
+     "hamstrings",
+     "glutes",
+     "calves",
+     "abdominals"
+    ],
+    "weekday": null
+   },
+   {
+    "name": "Upper B",
+    "rest": false,
+    "focus": [
+     "chest",
+     "lats",
+     "middle back",
+     "traps",
+     "shoulders",
+     "biceps",
+     "triceps"
+    ],
+    "weekday": null
+   },
+   {
+    "name": "Lower B",
+    "rest": false,
+    "focus": [
+     "quadriceps",
+     "hamstrings",
+     "glutes",
+     "calves",
+     "abdominals"
+    ],
+    "weekday": null
+   }
+  ]
+ },
+ {
+  "id": "ul-6",
+  "name": "Upper/Lower 6 Tage",
+  "group": "Upper/Lower",
+  "description": "U L U L U L mit A/B/C-Varianten. Jeder Muskel dreimal pro Woche.",
+  "rotating": false,
+  "days": [
+   {
+    "name": "Upper A",
+    "rest": false,
+    "focus": [
+     "chest",
+     "lats",
+     "middle back",
+     "traps",
+     "shoulders",
+     "biceps",
+     "triceps"
+    ],
+    "weekday": null
+   },
+   {
+    "name": "Lower A",
+    "rest": false,
+    "focus": [
+     "quadriceps",
+     "hamstrings",
+     "glutes",
+     "calves",
+     "abdominals"
+    ],
+    "weekday": null
+   },
+   {
+    "name": "Upper B",
+    "rest": false,
+    "focus": [
+     "chest",
+     "lats",
+     "middle back",
+     "traps",
+     "shoulders",
+     "biceps",
+     "triceps"
+    ],
+    "weekday": null
+   },
+   {
+    "name": "Lower B",
+    "rest": false,
+    "focus": [
+     "quadriceps",
+     "hamstrings",
+     "glutes",
+     "calves",
+     "abdominals"
+    ],
+    "weekday": null
+   },
+   {
+    "name": "Upper C",
+    "rest": false,
+    "focus": [
+     "chest",
+     "lats",
+     "middle back",
+     "traps",
+     "shoulders",
+     "biceps",
+     "triceps"
+    ],
+    "weekday": null
+   },
+   {
+    "name": "Lower C",
+    "rest": false,
+    "focus": [
+     "quadriceps",
+     "hamstrings",
+     "glutes",
+     "calves",
+     "abdominals"
+    ],
+    "weekday": null
+   }
+  ]
+ },
+ {
+  "id": "phul-4",
+  "name": "PHUL 4 Tage",
+  "group": "Upper/Lower",
+  "description": "Power Hypertrophy Upper Lower: zwei Kraft-Tage, zwei Hypertrophie-Tage.",
+  "rotating": false,
+  "days": [
+   {
+    "name": "Upper Power",
+    "rest": false,
+    "focus": [
+     "chest",
+     "lats",
+     "middle back",
+     "traps",
+     "shoulders",
+     "biceps",
+     "triceps"
+    ],
+    "weekday": null
+   },
+   {
+    "name": "Lower Power",
+    "rest": false,
+    "focus": [
+     "quadriceps",
+     "hamstrings",
+     "glutes",
+     "calves",
+     "abdominals"
+    ],
+    "weekday": null
+   },
+   {
+    "name": "Upper Hypertrophie",
+    "rest": false,
+    "focus": [
+     "chest",
+     "lats",
+     "middle back",
+     "traps",
+     "shoulders",
+     "biceps",
+     "triceps"
+    ],
+    "weekday": null
+   },
+   {
+    "name": "Lower Hypertrophie",
+    "rest": false,
+    "focus": [
+     "quadriceps",
+     "hamstrings",
+     "glutes",
+     "calves",
+     "abdominals"
+    ],
+    "weekday": null
+   }
+  ]
+ },
+ {
+  "id": "ppl-3",
+  "name": "PPL 3 Tage",
+  "group": "Push/Pull/Legs",
+  "description": "Push, Pull, Legs, jede Gruppe einmal pro Woche.",
+  "rotating": false,
+  "days": [
+   {
+    "name": "Push",
+    "rest": false,
+    "focus": [
+     "chest",
+     "shoulders",
+     "triceps"
+    ],
+    "weekday": null
+   },
+   {
+    "name": "Pull",
+    "rest": false,
+    "focus": [
+     "lats",
+     "middle back",
+     "traps",
+     "biceps",
+     "forearms"
+    ],
+    "weekday": null
+   },
+   {
+    "name": "Legs",
+    "rest": false,
+    "focus": [
+     "quadriceps",
+     "hamstrings",
+     "glutes",
+     "calves",
+     "adductors",
+     "abductors",
+     "abdominals"
+    ],
+    "weekday": null
+   }
+  ]
+ },
+ {
+  "id": "ppl-6",
+  "name": "PPL 6 Tage",
+  "group": "Push/Pull/Legs",
+  "description": "Push, Pull, Legs zweimal pro Woche (A/B-Varianten).",
+  "rotating": false,
+  "days": [
+   {
+    "name": "Push A",
+    "rest": false,
+    "focus": [
+     "chest",
+     "shoulders",
+     "triceps"
+    ],
+    "weekday": null
+   },
+   {
+    "name": "Pull A",
+    "rest": false,
+    "focus": [
+     "lats",
+     "middle back",
+     "traps",
+     "biceps",
+     "forearms"
+    ],
+    "weekday": null
+   },
+   {
+    "name": "Legs A",
+    "rest": false,
+    "focus": [
+     "quadriceps",
+     "hamstrings",
+     "glutes",
+     "calves",
+     "adductors",
+     "abductors",
+     "abdominals"
+    ],
+    "weekday": null
+   },
+   {
+    "name": "Push B",
+    "rest": false,
+    "focus": [
+     "chest",
+     "shoulders",
+     "triceps"
+    ],
+    "weekday": null
+   },
+   {
+    "name": "Pull B",
+    "rest": false,
+    "focus": [
+     "lats",
+     "middle back",
+     "traps",
+     "biceps",
+     "forearms"
+    ],
+    "weekday": null
+   },
+   {
+    "name": "Legs B",
+    "rest": false,
+    "focus": [
+     "quadriceps",
+     "hamstrings",
+     "glutes",
+     "calves",
+     "adductors",
+     "abductors",
+     "abdominals"
+    ],
+    "weekday": null
+   }
+  ]
+ },
+ {
+  "id": "ppl-plus-one-4",
+  "name": "PPL plus one 4 Tage",
+  "group": "Push/Pull/Legs",
+  "description": "Push, Pull, Legs plus ein vierter Tag, den du frei belegst (z. B. Schwachstellen).",
+  "rotating": false,
+  "days": [
+   {
+    "name": "Push",
+    "rest": false,
+    "focus": [
+     "chest",
+     "shoulders",
+     "triceps"
+    ],
+    "weekday": null
+   },
+   {
+    "name": "Pull",
+    "rest": false,
+    "focus": [
+     "lats",
+     "middle back",
+     "traps",
+     "biceps",
+     "forearms"
+    ],
+    "weekday": null
+   },
+   {
+    "name": "Legs",
+    "rest": false,
+    "focus": [
+     "quadriceps",
+     "hamstrings",
+     "glutes",
+     "calves",
+     "adductors",
+     "abductors",
+     "abdominals"
+    ],
+    "weekday": null
+   },
+   {
+    "name": "Freier Tag",
+    "rest": false,
+    "focus": [],
+    "weekday": null
+   }
+  ]
+ },
+ {
+  "id": "pushpull-4",
+  "name": "Push/Pull 4 Tage",
+  "group": "Push/Pull/Legs",
+  "description": "Zwei Push- und zwei Pull-Tage. Push enthält Quadrizeps, Pull enthält Beinbeuger und Gesäß.",
+  "rotating": false,
+  "days": [
+   {
+    "name": "Push A",
+    "rest": false,
+    "focus": [
+     "chest",
+     "shoulders",
+     "triceps",
+     "quadriceps",
+     "calves"
+    ],
+    "weekday": null
+   },
+   {
+    "name": "Pull A",
+    "rest": false,
+    "focus": [
+     "lats",
+     "middle back",
+     "traps",
+     "biceps",
+     "forearms",
+     "hamstrings",
+     "glutes",
+     "lower back"
+    ],
+    "weekday": null
+   },
+   {
+    "name": "Push B",
+    "rest": false,
+    "focus": [
+     "chest",
+     "shoulders",
+     "triceps",
+     "quadriceps",
+     "calves"
+    ],
+    "weekday": null
+   },
+   {
+    "name": "Pull B",
+    "rest": false,
+    "focus": [
+     "lats",
+     "middle back",
+     "traps",
+     "biceps",
+     "forearms",
+     "hamstrings",
+     "glutes",
+     "lower back"
+    ],
+    "weekday": null
+   }
+  ]
+ },
+ {
+  "id": "pplxul-5",
+  "name": "PPLxUL 5 Tage",
+  "group": "Hybride",
+  "description": "Push, Pull, Legs, dann Upper und Lower.",
+  "rotating": false,
+  "days": [
+   {
+    "name": "Push",
+    "rest": false,
+    "focus": [
+     "chest",
+     "shoulders",
+     "triceps"
+    ],
+    "weekday": null
+   },
+   {
+    "name": "Pull",
+    "rest": false,
+    "focus": [
+     "lats",
+     "middle back",
+     "traps",
+     "biceps",
+     "forearms"
+    ],
+    "weekday": null
+   },
+   {
+    "name": "Legs",
+    "rest": false,
+    "focus": [
+     "quadriceps",
+     "hamstrings",
+     "glutes",
+     "calves",
+     "adductors",
+     "abductors",
+     "abdominals"
+    ],
+    "weekday": null
+   },
+   {
+    "name": "Upper",
+    "rest": false,
+    "focus": [
+     "chest",
+     "lats",
+     "middle back",
+     "traps",
+     "shoulders",
+     "biceps",
+     "triceps"
+    ],
+    "weekday": null
+   },
+   {
+    "name": "Lower",
+    "rest": false,
+    "focus": [
+     "quadriceps",
+     "hamstrings",
+     "glutes",
+     "calves",
+     "abdominals"
+    ],
+    "weekday": null
+   }
+  ]
+ },
+ {
+  "id": "ulppl-5",
+  "name": "ULPPL 5 Tage",
+  "group": "Hybride",
+  "description": "Upper, Lower, dann Push, Pull, Legs.",
+  "rotating": false,
+  "days": [
+   {
+    "name": "Upper",
+    "rest": false,
+    "focus": [
+     "chest",
+     "lats",
+     "middle back",
+     "traps",
+     "shoulders",
+     "biceps",
+     "triceps"
+    ],
+    "weekday": null
+   },
+   {
+    "name": "Lower",
+    "rest": false,
+    "focus": [
+     "quadriceps",
+     "hamstrings",
+     "glutes",
+     "calves",
+     "abdominals"
+    ],
+    "weekday": null
+   },
+   {
+    "name": "Push",
+    "rest": false,
+    "focus": [
+     "chest",
+     "shoulders",
+     "triceps"
+    ],
+    "weekday": null
+   },
+   {
+    "name": "Pull",
+    "rest": false,
+    "focus": [
+     "lats",
+     "middle back",
+     "traps",
+     "biceps",
+     "forearms"
+    ],
+    "weekday": null
+   },
+   {
+    "name": "Legs",
+    "rest": false,
+    "focus": [
+     "quadriceps",
+     "hamstrings",
+     "glutes",
+     "calves",
+     "adductors",
+     "abductors",
+     "abdominals"
+    ],
+    "weekday": null
+   }
+  ]
+ },
+ {
+  "id": "phat-5",
+  "name": "PHAT 5 Tage",
+  "group": "Hybride",
+  "description": "Power Hypertrophy Adaptive Training: zwei Power-Tage, drei Hypertrophie-Tage.",
+  "rotating": false,
+  "days": [
+   {
+    "name": "Upper Power",
+    "rest": false,
+    "focus": [
+     "chest",
+     "lats",
+     "middle back",
+     "traps",
+     "shoulders",
+     "biceps",
+     "triceps"
+    ],
+    "weekday": null
+   },
+   {
+    "name": "Lower Power",
+    "rest": false,
+    "focus": [
+     "quadriceps",
+     "hamstrings",
+     "glutes",
+     "calves",
+     "abdominals"
+    ],
+    "weekday": null
+   },
+   {
+    "name": "Rücken + Schultern",
+    "rest": false,
+    "focus": [
+     "lats",
+     "middle back",
+     "traps",
+     "lower back",
+     "shoulders"
+    ],
+    "weekday": null
+   },
+   {
+    "name": "Lower Hypertrophie",
+    "rest": false,
+    "focus": [
+     "quadriceps",
+     "hamstrings",
+     "glutes",
+     "calves",
+     "abdominals"
+    ],
+    "weekday": null
+   },
+   {
+    "name": "Brust + Arme",
+    "rest": false,
+    "focus": [
+     "chest",
+     "biceps",
+     "triceps",
+     "forearms"
+    ],
+    "weekday": null
+   }
+  ]
+ },
+ {
+  "id": "ap-4",
+  "name": "Anterior/Posterior 4 Tage",
+  "group": "Vorne/Hinten & Sonstige",
+  "description": "Vorderseite (Quads, Brust, vordere Schulter, Bizeps, Bauch) und Rückseite (Hamstrings, Glutes, Rücken, hintere Schulter, Trizeps). Jeder Muskel zweimal.",
+  "rotating": false,
+  "days": [
+   {
+    "name": "Anterior A",
+    "rest": false,
+    "focus": [
+     "quadriceps",
+     "chest",
+     "shoulders",
+     "biceps",
+     "abdominals"
+    ],
+    "weekday": null
+   },
+   {
+    "name": "Posterior A",
+    "rest": false,
+    "focus": [
+     "hamstrings",
+     "glutes",
+     "lats",
+     "middle back",
+     "lower back",
+     "traps",
+     "shoulders",
+     "triceps"
+    ],
+    "weekday": null
+   },
+   {
+    "name": "Anterior B",
+    "rest": false,
+    "focus": [
+     "quadriceps",
+     "chest",
+     "shoulders",
+     "biceps",
+     "abdominals"
+    ],
+    "weekday": null
+   },
+   {
+    "name": "Posterior B",
+    "rest": false,
+    "focus": [
+     "hamstrings",
+     "glutes",
+     "lats",
+     "middle back",
+     "lower back",
+     "traps",
+     "shoulders",
+     "triceps"
+    ],
+    "weekday": null
+   }
+  ]
+ },
+ {
+  "id": "ap-6",
+  "name": "Anterior/Posterior 6 Tage",
+  "group": "Vorne/Hinten & Sonstige",
+  "description": "Wie Anterior/Posterior 4, aber dreimal pro Muskel und Woche.",
+  "rotating": false,
+  "days": [
+   {
+    "name": "Anterior A",
+    "rest": false,
+    "focus": [
+     "quadriceps",
+     "chest",
+     "shoulders",
+     "biceps",
+     "abdominals"
+    ],
+    "weekday": null
+   },
+   {
+    "name": "Posterior A",
+    "rest": false,
+    "focus": [
+     "hamstrings",
+     "glutes",
+     "lats",
+     "middle back",
+     "lower back",
+     "traps",
+     "shoulders",
+     "triceps"
+    ],
+    "weekday": null
+   },
+   {
+    "name": "Anterior B",
+    "rest": false,
+    "focus": [
+     "quadriceps",
+     "chest",
+     "shoulders",
+     "biceps",
+     "abdominals"
+    ],
+    "weekday": null
+   },
+   {
+    "name": "Posterior B",
+    "rest": false,
+    "focus": [
+     "hamstrings",
+     "glutes",
+     "lats",
+     "middle back",
+     "lower back",
+     "traps",
+     "shoulders",
+     "triceps"
+    ],
+    "weekday": null
+   },
+   {
+    "name": "Anterior C",
+    "rest": false,
+    "focus": [
+     "quadriceps",
+     "chest",
+     "shoulders",
+     "biceps",
+     "abdominals"
+    ],
+    "weekday": null
+   },
+   {
+    "name": "Posterior C",
+    "rest": false,
+    "focus": [
+     "hamstrings",
+     "glutes",
+     "lats",
+     "middle back",
+     "lower back",
+     "traps",
+     "shoulders",
+     "triceps"
+    ],
+    "weekday": null
+   }
+  ]
+ },
+ {
+  "id": "torso-limbs-4",
+  "name": "Torso/Limbs 4 Tage",
+  "group": "Vorne/Hinten & Sonstige",
+  "description": "Torso: Brust, Rücken, Schultern. Limbs: Beine, Bizeps, Trizeps.",
+  "rotating": false,
+  "days": [
+   {
+    "name": "Torso A",
+    "rest": false,
+    "focus": [
+     "chest",
+     "lats",
+     "middle back",
+     "lower back",
+     "traps",
+     "shoulders"
+    ],
+    "weekday": null
+   },
+   {
+    "name": "Limbs A",
+    "rest": false,
+    "focus": [
+     "quadriceps",
+     "hamstrings",
+     "glutes",
+     "calves",
+     "adductors",
+     "abductors",
+     "biceps",
+     "triceps",
+     "forearms"
+    ],
+    "weekday": null
+   },
+   {
+    "name": "Torso B",
+    "rest": false,
+    "focus": [
+     "chest",
+     "lats",
+     "middle back",
+     "lower back",
+     "traps",
+     "shoulders"
+    ],
+    "weekday": null
+   },
+   {
+    "name": "Limbs B",
+    "rest": false,
+    "focus": [
+     "quadriceps",
+     "hamstrings",
+     "glutes",
+     "calves",
+     "adductors",
+     "abductors",
+     "biceps",
+     "triceps",
+     "forearms"
+    ],
+    "weekday": null
+   }
+  ]
+ },
+ {
+  "id": "antagonist-4",
+  "name": "Antagonist-Split 4 Tage",
+  "group": "Vorne/Hinten & Sonstige",
+  "description": "Gegenspieler-Muskeln am selben Tag, Beine separat.",
+  "rotating": false,
+  "days": [
+   {
+    "name": "Brust + Rücken + Arme",
+    "rest": false,
+    "focus": [
+     "chest",
+     "lats",
+     "middle back",
+     "lower back",
+     "traps",
+     "biceps",
+     "triceps",
+     "forearms"
+    ],
+    "weekday": null
+   },
+   {
+    "name": "Beine A",
+    "rest": false,
+    "focus": [
+     "quadriceps",
+     "hamstrings",
+     "glutes",
+     "calves",
+     "adductors",
+     "abductors"
+    ],
+    "weekday": null
+   },
+   {
+    "name": "Brust + Rücken + Schultern + Arme",
+    "rest": false,
+    "focus": [
+     "chest",
+     "lats",
+     "middle back",
+     "lower back",
+     "traps",
+     "shoulders",
+     "biceps",
+     "triceps",
+     "forearms"
+    ],
+    "weekday": null
+   },
+   {
+    "name": "Beine B",
+    "rest": false,
+    "focus": [
+     "quadriceps",
+     "hamstrings",
+     "glutes",
+     "calves",
+     "adductors",
+     "abductors"
+    ],
+    "weekday": null
+   }
+  ]
+ },
+ {
+  "id": "arnold-6",
+  "name": "Arnold Split 6 Tage",
+  "group": "Body Part",
+  "description": "Brust + Rücken, Schultern + Arme, Beine + Core, dann alles nochmal.",
+  "rotating": false,
+  "days": [
+   {
+    "name": "Brust + Rücken A",
+    "rest": false,
+    "focus": [
+     "chest",
+     "lats",
+     "middle back",
+     "lower back",
+     "traps"
+    ],
+    "weekday": null
+   },
+   {
+    "name": "Schultern + Arme A",
+    "rest": false,
+    "focus": [
+     "shoulders",
+     "biceps",
+     "triceps",
+     "forearms"
+    ],
+    "weekday": null
+   },
+   {
+    "name": "Beine + Core A",
+    "rest": false,
+    "focus": [
+     "quadriceps",
+     "hamstrings",
+     "glutes",
+     "calves",
+     "adductors",
+     "abductors",
+     "abdominals",
+     "lower back"
+    ],
+    "weekday": null
+   },
+   {
+    "name": "Brust + Rücken B",
+    "rest": false,
+    "focus": [
+     "chest",
+     "lats",
+     "middle back",
+     "lower back",
+     "traps"
+    ],
+    "weekday": null
+   },
+   {
+    "name": "Schultern + Arme B",
+    "rest": false,
+    "focus": [
+     "shoulders",
+     "biceps",
+     "triceps",
+     "forearms"
+    ],
+    "weekday": null
+   },
+   {
+    "name": "Beine + Core B",
+    "rest": false,
+    "focus": [
+     "quadriceps",
+     "hamstrings",
+     "glutes",
+     "calves",
+     "adductors",
+     "abductors",
+     "abdominals",
+     "lower back"
+    ],
+    "weekday": null
+   }
+  ]
+ },
+ {
+  "id": "bro-5",
+  "name": "Bro Split 5 Tage",
+  "group": "Body Part",
+  "description": "Ein Muskel pro Tag: Brust, Rücken, Schultern, Arme, Beine.",
+  "rotating": false,
+  "days": [
+   {
+    "name": "Brust",
+    "rest": false,
+    "focus": [
+     "chest"
+    ],
+    "weekday": null
+   },
+   {
+    "name": "Rücken",
+    "rest": false,
+    "focus": [
+     "lats",
+     "middle back",
+     "lower back",
+     "traps"
+    ],
+    "weekday": null
+   },
+   {
+    "name": "Schultern",
+    "rest": false,
+    "focus": [
+     "shoulders",
+     "traps"
+    ],
+    "weekday": null
+   },
+   {
+    "name": "Arme",
+    "rest": false,
+    "focus": [
+     "biceps",
+     "triceps",
+     "forearms"
+    ],
+    "weekday": null
+   },
+   {
+    "name": "Beine",
+    "rest": false,
+    "focus": [
+     "quadriceps",
+     "hamstrings",
+     "glutes",
+     "calves",
+     "adductors",
+     "abductors"
+    ],
+    "weekday": null
+   }
+  ]
+ },
+ {
+  "id": "bodypart-4",
+  "name": "Body Part 4 Tage",
+  "group": "Body Part",
+  "description": "Brust + Trizeps, Rücken + Bizeps, Schultern + Bauch, Beine + Waden.",
+  "rotating": false,
+  "days": [
+   {
+    "name": "Brust + Trizeps",
+    "rest": false,
+    "focus": [
+     "chest",
+     "triceps"
+    ],
+    "weekday": null
+   },
+   {
+    "name": "Rücken + Bizeps",
+    "rest": false,
+    "focus": [
+     "lats",
+     "middle back",
+     "lower back",
+     "traps",
+     "biceps"
+    ],
+    "weekday": null
+   },
+   {
+    "name": "Schultern + Bauch",
+    "rest": false,
+    "focus": [
+     "shoulders",
+     "abdominals"
+    ],
+    "weekday": null
+   },
+   {
+    "name": "Beine + Waden",
+    "rest": false,
+    "focus": [
+     "quadriceps",
+     "hamstrings",
+     "glutes",
+     "calves",
+     "adductors",
+     "abductors"
+    ],
+    "weekday": null
+   }
+  ]
+ }
+]
