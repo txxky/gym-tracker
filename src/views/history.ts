@@ -7,6 +7,7 @@ import { ICON } from '../lib/icons';
 import { deleteSet, discardSession, formatKg, KG, REPS, RPE, updateSet } from '../lib/log';
 import type { RouteContext } from '../lib/router';
 import type { Session, SetLog } from '../lib/types';
+import { isCheckin } from '../lib/log';
 import { formatDayLong, formatNumber } from '../components/chart';
 
 const PAGE = 15;
@@ -66,14 +67,32 @@ export async function renderHistory({ root, isCurrent }: RouteContext): Promise<
       .sort((a, b) => b.startedAt - a.startedAt)
       .map((s) => [s, bySession.get(s.id!)!.sort((a, b) => a.ts - b.ts || a.setIndex - b.setIndex)]);
 
+    // Check-ins ("im Gym gewesen") haben keine Sätze und stehen nur ohne Übungsfilter in der Liste
+    const checkins = exerciseFilter ? [] : sessions.filter(isCheckin);
+    const entries: Array<{ at: number; session: Session; sets: SetLog[] | null }> = [
+      ...rows.map(([session, list]) => ({ at: session.startedAt, session, sets: list })),
+      ...checkins.map((session) => ({ at: session.startedAt, session, sets: null })),
+    ].sort((a, b) => b.at - a.at);
+
     listEl.replaceChildren();
-    if (!rows.length) {
+    if (!entries.length) {
       listEl.append(h('div', { class: 'empty', 'data-testid': 'history-empty' }, svg(ICON.splits, 'icon icon-xl muted'),
         h('h2', null, 'Noch keine Sätze'), h('p', { class: 'muted' }, 'Geloggte Sätze erscheinen hier, das neueste Training zuerst.')));
       moreBtn.hidden = true;
       return;
     }
-    for (const [session, list] of rows.slice(0, shown)) {
+    for (const { session, sets: list } of entries.slice(0, shown)) {
+      if (list === null) {
+        listEl.append(h('section', { class: 'card history-session history-checkin', 'data-testid': 'history-checkin' },
+          h('div', { class: 'history-head', style: 'margin:0' },
+            h('div', null, h('strong', null, 'Im Gym gewesen'), h('div', { class: 'muted small' }, `${formatDayLong(session.startedAt)} · ohne Sätze${session.dayName !== 'Im Gym' ? ` · zählte als ${session.dayName}` : ''}`)),
+            h('button', { class: 'icon-btn', type: 'button', 'aria-label': `Check-in vom ${formatDayLong(session.startedAt)} löschen`, 'data-testid': 'delete-checkin',
+              onclick: async () => {
+                if (!confirm(`Eintrag „Im Gym gewesen“ vom ${formatDayLong(session.startedAt)} löschen?`)) return;
+                await discardSession(session.id!); toast('Eintrag gelöscht'); void draw();
+              } }, svg(ICON.trash)))));
+        continue;
+      }
       const byEx = new Map<string, SetLog[]>();
       list.forEach((s) => byEx.set(s.exerciseId, [...(byEx.get(s.exerciseId) ?? []), s]));
       const volume = Math.round(list.reduce((n, s) => n + s.kg * s.reps, 0));
@@ -94,7 +113,7 @@ export async function renderHistory({ root, isCurrent }: RouteContext): Promise<
             h('span', { class: 'set-val' }, `${formatKg(s.kg)} kg x ${s.reps}`),
             s.rpe !== null ? h('span', { class: 'muted small' }, `RPE ${formatKg(s.rpe)}`) : null))))))));
     }
-    moreBtn.hidden = rows.length <= shown;
+    moreBtn.hidden = entries.length <= shown;
   }
   await draw();
 }

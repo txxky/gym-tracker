@@ -4,6 +4,7 @@ import { setHeader } from '../components/shell';
 import { db, getSetting, setSetting } from '../lib/db';
 import { backupFileName, buildBackup, parseBackup, restoreBackup } from '../lib/backup';
 import { h } from '../lib/dom';
+import { CHECKIN_ADVANCE_KEY } from '../lib/log';
 import { allExercises, invalidateExercises } from '../lib/exercises';
 import { pickTextFile, shareOrDownload } from '../lib/files';
 import {
@@ -44,8 +45,9 @@ async function trainingSection(): Promise<HTMLElement> {
   });
   const rpe = await toggleRow('use-rpe', 'RPE-Rad beim Loggen anzeigen', 'useRpe', false);
   const auto = await toggleRow('rest-auto', 'Pausentimer nach jedem Satz starten', 'restAuto', true);
+  const checkin = await toggleRow('checkin-advance-default', 'Check-in ("Ich war im Gym") rückt den Zyklus standardmäßig weiter', CHECKIN_ADVANCE_KEY, true);
   const sound = await toggleRow('rest-sound', 'Ton am Pausenende (zusätzlich zur Vibration)', 'restSound', false);
-  return h('section', { class: 'card' }, h('h2', null, 'Training'), rpe, auto, sound,
+  return h('section', { class: 'card' }, h('h2', null, 'Training'), rpe, auto, sound, checkin,
     h('p', { class: 'muted' }, 'Pausenzeit, die neue Übungen im Builder vorgeschlagen bekommen.'), wheel.el,
     h('p', { class: 'muted small' }, 'Der Timer läuft mit Zeitstempel und stimmt auch, wenn das Handy kurz sperrt. Vibration und Ton klappen nur bei geöffneter App; iPhones vibrieren nicht.'));
 }

@@ -8,7 +8,7 @@ export const BACKUP_FORMAT = 'gym-tracker-backup';
 /** 2: Profil und Session-Typ (full/checkin). Version 1 bleibt lesbar (kein Profil, alle Trainings 'full'). */
 export const BACKUP_VERSION = 2;
 /** Nur diese Einstellungen gehören ins Backup (kein internes Seeding-Flag). */
-export const BACKUP_SETTINGS = ['defaultRestSec', 'activeSplitId', 'useRpe', 'restAuto', 'restSound'] as const;
+export const BACKUP_SETTINGS = ['defaultRestSec', 'activeSplitId', 'useRpe', 'restAuto', 'restSound', 'checkinAdvance'] as const;
 
 /** Profilfoto ist auf 384 px verkleinert (wenige zehn KB); alles darüber ist keine App-Datei. */
 const MAX_PROFILE_PHOTO_B64 = 3_000_000;
