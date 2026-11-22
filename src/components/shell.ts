@@ -15,6 +15,8 @@ const TABS = [
 const THEME_ICON: Record<ThemePref, string> = { system: ICON.auto, light: ICON.sun, dark: ICON.moon };
 const THEME_LABEL: Record<ThemePref, string> = { system: 'System', light: 'Hell', dark: 'Dunkel' };
 
+export const APP_NAME = 'Zero Lift';
+
 const header = h('header', { class: 'app-header' });
 const leftEl = h('div', { class: 'app-header-left' });
 const smallTitle = h('div', { class: 'app-header-title', 'data-testid': 'small-title' });
@@ -24,6 +26,8 @@ const rightEl = h('div', { class: 'app-header-right' }, actionsEl, themeBtn);
 const largeTitle = h('h1', { class: 'large-title t-large-title', 'data-testid': 'large-title' });
 const main = h('main', { class: 'app-main', id: 'main' });
 const scroller = h('div', { class: 'app-scroll', 'data-testid': 'scroller' }, largeTitle, main);
+const brand = h('a', { class: 'brand', href: '#/training', 'aria-label': `${APP_NAME}, zum Training`, 'data-testid': 'brand' },
+  svg(ICON.logo, 'icon brand-logo'), h('span', { class: 'brand-name' }, APP_NAME));
 const calendarBtn = h('a', { class: 'icon-btn', href: '#/calendar', 'aria-label': 'Kalender', 'data-testid': 'open-calendar' }, svg(ICON.calendar));
 const avatarEl = h('span', { class: 'avatar' });
 const avatarBtn = h('a', { class: 'avatar-btn', href: '#/profile', 'aria-label': 'Profil', 'data-testid': 'open-profile' }, avatarEl);
@@ -99,7 +103,7 @@ function watchCollapse(large: boolean): void {
 }
 
 export function setHeader({ title, back, historyBack = false, actions = [], large = true }: HeaderOptions): void {
-  document.title = `${title} · Gym Tracker`;
+  document.title = `${title} · ${APP_NAME}`;
   smallTitle.textContent = title;
   largeTitle.textContent = title;
   largeTitle.hidden = !large;
@@ -116,12 +120,17 @@ export function setHeader({ title, back, historyBack = false, actions = [], larg
     }
     leftEl.appendChild(a);
   } else {
-    // Hauptscreens: Profil-Avatar an erster Stelle links
-    leftEl.appendChild(avatarBtn);
+    // Hauptscreens: Hantel und Name immer links (das Profil sitzt rechts)
+    leftEl.appendChild(brand);
   }
+  // Auf Hauptscreens trägt die Marke die Leiste; der kleine Titel würde dort mit den Symbolen kollidieren.
+  smallTitle.hidden = !back;
+  header.classList.toggle('has-brand', !back);
   clear(actionsEl);
-  // Kalender-Shortcut nur auf den Hauptscreens (wo links der Avatar steht), nicht mitten im Logging
+  // Kalender-Shortcut und Profil-Avatar nur auf den Hauptscreens (wo links die Marke steht), nicht mitten im Logging
   actionsEl.append(...actions, ...(back ? [] : [calendarBtn]));
+  // Reihenfolge rechts: Aktionen, Kalender, Theme, Profil
+  rightEl.replaceChildren(actionsEl, themeBtn, ...(back ? [] : [avatarBtn]));
   watchCollapse(large);
 }
 

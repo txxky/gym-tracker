@@ -22,5 +22,7 @@ export const ICON = {
   person: wrap('<circle cx="12" cy="8.5" r="3.75"/><path d="M4.75 20a7.25 7.25 0 0 1 14.5 0"/>'),
   checkCircle: wrap('<circle cx="12" cy="12" r="9"/><path d="m8 12.5 3 3 5-6"/>'),
   check: wrap('<path d="m5 12.5 4.5 4.5L19 7.5"/>'),
+  /** Markenzeichen: Hantel (gleicher Strichstil wie die übrigen Icons) */
+  logo: wrap('<rect x="1.5" y="8" width="3.5" height="8" rx="1.2"/><rect x="5.5" y="5" width="3.5" height="14" rx="1.4"/><path d="M9 12h6"/><rect x="15" y="5" width="3.5" height="14" rx="1.4"/><rect x="19" y="8" width="3.5" height="8" rx="1.2"/>'),
   camera: wrap('<path d="M4 8h3l2-3h6l2 3h3v12H4z"/><circle cx="12" cy="13" r="4"/>'),
 } as const;
