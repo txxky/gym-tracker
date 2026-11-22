@@ -8,6 +8,9 @@ export interface RouteContext {
 export type RouteHandler = (ctx: RouteContext) => void | Promise<void>;
 export type Routes = Array<[RegExp, RouteHandler]>;
 
+/** Anzahl der Ansichten seit dem App-Start; > 1 heißt: "Zurück" bleibt in der App. */
+export let navCount = 0;
+
 export function currentPath(): string {
   return location.hash.slice(1) || '/training';
 }
@@ -26,6 +29,7 @@ export function startRouter(main: HTMLElement, routes: Routes, onChange: (path: 
       const m = re.exec(path);
       if (!m) continue;
       const id = ++navId;
+      navCount++;
       const view = document.createElement('div');
       view.className = 'view';
       main.replaceChildren(view);

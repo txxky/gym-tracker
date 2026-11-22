@@ -1,5 +1,8 @@
 import { h, svg, clear } from '../lib/dom';
 import { ICON } from '../lib/icons';
+import { getProfile } from '../lib/profile';
+import { navCount, navigate } from '../lib/router';
+import { paintAvatar } from './avatar';
 import { cycleTheme, getThemePref, type ThemePref } from '../lib/theme';
 
 const TABS = [
@@ -21,6 +24,15 @@ const rightEl = h('div', { class: 'app-header-right' }, actionsEl, themeBtn);
 const largeTitle = h('h1', { class: 'large-title t-large-title', 'data-testid': 'large-title' });
 const main = h('main', { class: 'app-main', id: 'main' });
 const scroller = h('div', { class: 'app-scroll', 'data-testid': 'scroller' }, largeTitle, main);
+const avatarEl = h('span', { class: 'avatar' });
+const avatarBtn = h('a', { class: 'avatar-btn', href: '#/profile', 'aria-label': 'Profil', 'data-testid': 'open-profile' }, avatarEl);
+let avatarUrl: string | null = null;
+async function paintProfile(): Promise<void> {
+  const p = await getProfile();
+  if (avatarUrl) URL.revokeObjectURL(avatarUrl);
+  avatarUrl = paintAvatar(avatarEl, p);
+  avatarBtn.setAttribute('aria-label', p.username ? `Profil von ${p.username}` : 'Profil');
+}
 const tabbar = h('nav', { class: 'tabbar', 'aria-label': 'Hauptnavigation' });
 
 function paintThemeBtn(): void {
@@ -36,6 +48,8 @@ export function mountShell(app: HTMLElement): HTMLElement {
   });
   window.addEventListener('themechange', paintThemeBtn);
   paintThemeBtn();
+  window.addEventListener('profilechange', () => { void paintProfile(); });
+  void paintProfile();
 
   for (const t of TABS) {
     tabbar.appendChild(
@@ -54,6 +68,8 @@ export interface HeaderOptions {
   title: string;
   /** Ziel des Zurück-Pfeils (Hash-Pfad) */
   back?: string;
+  /** Zurück geht einen Schritt im Verlauf (statt zu einem festen Ziel), solange man in der App war */
+  historyBack?: boolean;
   actions?: HTMLElement[];
   /**
    * Großer Titel im iOS-Stil, der beim Scrollen in den kleinen mittigen Titel der Leiste übergeht.
@@ -81,7 +97,7 @@ function watchCollapse(large: boolean): void {
   collapseObserver.observe(largeTitle);
 }
 
-export function setHeader({ title, back, actions = [], large = true }: HeaderOptions): void {
+export function setHeader({ title, back, historyBack = false, actions = [], large = true }: HeaderOptions): void {
   document.title = `${title} · Gym Tracker`;
   smallTitle.textContent = title;
   largeTitle.textContent = title;
@@ -91,7 +107,16 @@ export function setHeader({ title, back, actions = [], large = true }: HeaderOpt
   else { smallTitle.removeAttribute('aria-hidden'); smallTitle.setAttribute('role', 'heading'); smallTitle.setAttribute('aria-level', '1'); }
   clear(leftEl);
   if (back) {
-    leftEl.appendChild(h('a', { class: 'icon-btn', href: `#${back}`, 'aria-label': 'Zurück', 'data-testid': 'back' }, svg(ICON.back)));
+    const a = h('a', { class: 'icon-btn', href: `#${back}`, 'aria-label': 'Zurück', 'data-testid': 'back' }, svg(ICON.back));
+    if (historyBack) {
+      a.addEventListener('click', (e) => {
+        if (navCount > 1) { e.preventDefault(); history.back(); } else { e.preventDefault(); navigate(back); }
+      });
+    }
+    leftEl.appendChild(a);
+  } else {
+    // Hauptscreens: Profil-Avatar an erster Stelle links
+    leftEl.appendChild(avatarBtn);
   }
   clear(actionsEl);
   actionsEl.append(...actions);

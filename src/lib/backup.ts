@@ -1,16 +1,23 @@
 import { db, type GymDB } from './db';
 import { clamp, normalizePlan, SET_LIMITS } from './split-logic';
 import { ensureSplitsSeeded } from './split-store';
-import type { Exercise, Session, SetLog, Split, SplitDay } from './types';
+import { cleanProfile } from './profile';
+import type { Exercise, Profile, Session, SetLog, Split, SplitDay } from './types';
 
 export const BACKUP_FORMAT = 'gym-tracker-backup';
-export const BACKUP_VERSION = 1;
+/** 2: Profil und Session-Typ (full/checkin). Version 1 bleibt lesbar (kein Profil, alle Trainings 'full'). */
+export const BACKUP_VERSION = 2;
 /** Nur diese Einstellungen gehören ins Backup (kein internes Seeding-Flag). */
 export const BACKUP_SETTINGS = ['defaultRestSec', 'activeSplitId', 'useRpe', 'restAuto', 'restSound'] as const;
 
+/** Profilfoto ist auf 384 px verkleinert (wenige zehn KB); alles darüber ist keine App-Datei. */
+const MAX_PROFILE_PHOTO_B64 = 3_000_000;
 const LIMITS = { sessions: 100_000, sets: 1_000_000, splits: 500, exercises: 2000 };
 
 interface BackupExercise extends Omit<Exercise, 'photo'> {
+  photo?: { type: string; base64: string };
+}
+export interface BackupProfile extends Omit<Profile, 'photo'> {
   photo?: { type: string; base64: string };
 }
 export interface Backup {
@@ -22,6 +29,8 @@ export interface Backup {
   sessions: Session[];
   sets: SetLog[];
   settings: Record<string, unknown>;
+  /** undefined = Datei ohne Profil-Angabe (Version 1): vorhandenes Profil bleibt beim Import erhalten. null = bewusst kein Profil. */
+  profile?: BackupProfile | null;
 }
 
 export async function blobToBase64(blob: Blob): Promise<string> {
@@ -39,15 +48,21 @@ export function base64ToBlob(base64: string, type: string): Blob {
 }
 
 export async function buildBackup(d: GymDB = db, now = new Date()): Promise<Backup> {
-  const [exercises, splits, sessions, sets, settingRows] = await Promise.all([
+  const [exercises, splits, sessions, sets, settingRows, profileRow] = await Promise.all([
     d.exercises.filter((e) => e.custom === true).toArray(), d.splits.toArray(), d.sessions.toArray(), d.sets.toArray(), d.settings.toArray(),
+    d.profile.get('me'),
   ]);
   const customExercises: BackupExercise[] = await Promise.all(exercises.map(async ({ photo, ...rest }) => (
     photo ? { ...rest, photo: { type: photo.type || 'image/jpeg', base64: await blobToBase64(photo) } } : rest
   )));
   const settings: Record<string, unknown> = {};
   for (const row of settingRows) if ((BACKUP_SETTINGS as readonly string[]).includes(row.key)) settings[row.key] = row.value;
-  return { format: BACKUP_FORMAT, version: BACKUP_VERSION, exportedAt: now.toISOString(), customExercises, splits, sessions, sets, settings };
+  let profile: BackupProfile | null = null;
+  if (profileRow) {
+    const { photo, ...rest } = profileRow;
+    profile = photo ? { ...rest, photo: { type: photo.type || 'image/jpeg', base64: await blobToBase64(photo) } } : rest;
+  }
+  return { format: BACKUP_FORMAT, version: BACKUP_VERSION, exportedAt: now.toISOString(), customExercises, splits, sessions, sets, settings, profile };
 }
 
 // ---- Prüfen und Bereinigen ----
@@ -107,13 +122,15 @@ export function parseBackup(text: string): ParseBackup {
 
   const sessions: Session[] = [];
   const sessionIds = new Set<number>();
+  const checkinIds = new Set<number>();
   for (const s of arr(raw.sessions, LIMITS.sessions)) {
     if (!isObj(s)) { dropped++; continue; }
     const id = num(s.id); const startedAt = num(s.startedAt);
     if (id === null || startedAt === null || sessionIds.has(id)) { dropped++; continue; }
     sessionIds.add(id);
+    if (s.type === 'checkin') checkinIds.add(id);
     sessions.push({
-      id, startedAt, endedAt: num(s.endedAt), splitId: str(s.splitId, 120), dayId: str(s.dayId, 120), dayName: str(s.dayName, 60) ?? 'Training',
+      id, type: s.type === 'checkin' ? 'checkin' : 'full', startedAt, endedAt: num(s.endedAt), splitId: str(s.splitId, 120), dayId: str(s.dayId, 120), dayName: str(s.dayName, 60) ?? 'Training',
     });
   }
 
@@ -123,8 +140,8 @@ export function parseBackup(text: string): ParseBackup {
     if (!isObj(s)) { dropped++; continue; }
     const id = num(s.id); const sessionId = num(s.sessionId); const kg = num(s.kg); const reps = num(s.reps);
     const exerciseId = str(s.exerciseId, 120);
-    // Sätze ohne zugehöriges Training würden in der App nirgends auftauchen
-    if (id === null || sessionId === null || !sessionIds.has(sessionId) || kg === null || reps === null || !exerciseId || setIds.has(id)) { dropped++; continue; }
+    // Sätze ohne zugehöriges Training würden in der App nirgends auftauchen; ein Check-in hat per Definition keine Sätze
+    if (id === null || sessionId === null || !sessionIds.has(sessionId) || checkinIds.has(sessionId) || kg === null || reps === null || !exerciseId || setIds.has(id)) { dropped++; continue; }
     setIds.add(id);
     const rpe = num(s.rpe);
     sets.push({
@@ -160,9 +177,23 @@ export function parseBackup(text: string): ParseBackup {
   // Aktiver Split muss existieren
   if (typeof settings.activeSplitId === 'string' && !splits.some((s) => s.id === settings.activeSplitId)) settings.activeSplitId = null;
 
+  let profile: BackupProfile | null | undefined;
+  if ('profile' in raw) {
+    if (isObj(raw.profile)) {
+      const photo = isObj(raw.profile.photo) && typeof raw.profile.photo.base64 === 'string' && typeof raw.profile.photo.type === 'string'
+        && raw.profile.photo.type.startsWith('image/') && raw.profile.photo.base64.length <= MAX_PROFILE_PHOTO_B64 && /^[A-Za-z0-9+/]*={0,2}$/.test(raw.profile.photo.base64)
+        ? { type: raw.profile.photo.type.slice(0, 40), base64: raw.profile.photo.base64 } : undefined;
+      profile = { ...cleanProfile(raw.profile), photo };
+      if (!photo) delete profile.photo;
+    } else {
+      profile = null;
+      if (raw.profile !== null) dropped++;
+    }
+  }
+
   return {
     ok: true, dropped,
-    value: { format: BACKUP_FORMAT, version: BACKUP_VERSION, exportedAt: str(raw.exportedAt, 40) ?? '', customExercises, splits, sessions, sets, settings },
+    value: { format: BACKUP_FORMAT, version: BACKUP_VERSION, exportedAt: str(raw.exportedAt, 40) ?? '', customExercises, splits, sessions, sets, settings, profile },
   };
 }
 
@@ -171,7 +202,8 @@ export interface RestoreResult { sessions: number; sets: number; splits: number;
 /** Ersetzt alle Nutzerdaten durch das Backup. Alles in einer Transaktion: bei einem Fehler bleibt der alte Stand. */
 export async function restoreBackup(b: Backup, d: GymDB = db): Promise<RestoreResult> {
   const customs: Exercise[] = b.customExercises.map(({ photo, ...rest }) => (photo ? { ...rest, photo: base64ToBlob(photo.base64, photo.type) } : rest));
-  await d.transaction('rw', [d.exercises, d.splits, d.sessions, d.sets, d.settings], async () => {
+  const prof = b.profile ? ((): Profile => { const { photo, ...rest } = b.profile!; return photo ? { ...rest, photo: base64ToBlob(photo.base64, photo.type) } : rest; })() : b.profile;
+  await d.transaction('rw', [d.exercises, d.splits, d.sessions, d.sets, d.settings, d.profile], async () => {
     await d.sessions.clear();
     await d.sets.clear();
     await d.splits.clear();
@@ -182,6 +214,11 @@ export async function restoreBackup(b: Backup, d: GymDB = db): Promise<RestoreRe
     await d.sessions.bulkPut(b.sessions);
     await d.sets.bulkPut(b.sets);
     await d.settings.bulkPut(Object.entries(b.settings).map(([key, value]) => ({ key, value })));
+    // Profil nur ersetzen, wenn die Datei eine Angabe enthält (Version 1 hatte keins)
+    if (prof !== undefined) {
+      await d.profile.clear();
+      if (prof) await d.profile.put(prof);
+    }
   });
   // Fehlende mitgelieferte Vorlagen wieder anlegen (z. B. Backup aus einer älteren Version)
   await ensureSplitsSeeded(d);

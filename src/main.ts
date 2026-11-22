@@ -9,6 +9,7 @@ import { startRouter, type Routes } from './lib/router';
 import { initTheme } from './lib/theme';
 import { renderHistory } from './views/history';
 import { renderLog } from './views/log';
+import { renderProfile } from './views/profile';
 import { renderProgress } from './views/progress';
 import { ensureSplitsSeeded } from './lib/split-store';
 import { renderDayBuilder } from './views/day-builder';
@@ -29,6 +30,7 @@ const routes: Routes = [
   [/^\/progress$/, renderProgress],
   [/^\/history$/, renderHistory],
   [/^\/settings$/, renderSettings],
+  [/^\/profile$/, renderProfile],
 ];
 
 async function boot() {
