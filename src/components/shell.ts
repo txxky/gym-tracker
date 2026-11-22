@@ -24,6 +24,7 @@ const rightEl = h('div', { class: 'app-header-right' }, actionsEl, themeBtn);
 const largeTitle = h('h1', { class: 'large-title t-large-title', 'data-testid': 'large-title' });
 const main = h('main', { class: 'app-main', id: 'main' });
 const scroller = h('div', { class: 'app-scroll', 'data-testid': 'scroller' }, largeTitle, main);
+const calendarBtn = h('a', { class: 'icon-btn', href: '#/calendar', 'aria-label': 'Kalender', 'data-testid': 'open-calendar' }, svg(ICON.calendar));
 const avatarEl = h('span', { class: 'avatar' });
 const avatarBtn = h('a', { class: 'avatar-btn', href: '#/profile', 'aria-label': 'Profil', 'data-testid': 'open-profile' }, avatarEl);
 let avatarUrl: string | null = null;
@@ -119,7 +120,8 @@ export function setHeader({ title, back, historyBack = false, actions = [], larg
     leftEl.appendChild(avatarBtn);
   }
   clear(actionsEl);
-  actionsEl.append(...actions);
+  // Kalender-Shortcut nur auf den Hauptscreens (wo links der Avatar steht), nicht mitten im Logging
+  actionsEl.append(...actions, ...(back ? [] : [calendarBtn]));
   watchCollapse(large);
 }
 

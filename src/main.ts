@@ -7,6 +7,7 @@ import { mountShell, resetScroll, setActiveTab } from './components/shell';
 import { ensureExercisesSeeded } from './lib/exercises';
 import { startRouter, type Routes } from './lib/router';
 import { initTheme } from './lib/theme';
+import { renderCalendar } from './views/calendar';
 import { renderHistory } from './views/history';
 import { renderLog } from './views/log';
 import { renderProfile } from './views/profile';
@@ -31,6 +32,7 @@ const routes: Routes = [
   [/^\/history$/, renderHistory],
   [/^\/settings$/, renderSettings],
   [/^\/profile$/, renderProfile],
+  [/^\/calendar$/, renderCalendar],
 ];
 
 async function boot() {
