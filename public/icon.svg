@@ -1,10 +1,11 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-  <rect width="512" height="512" fill="#0f766e"/>
-  <g fill="#ffffff">
-    <rect x="96" y="216" width="40" height="80" rx="8"/>
-    <rect x="140" y="176" width="40" height="160" rx="8"/>
-    <rect x="180" y="244" width="152" height="24" rx="6"/>
-    <rect x="332" y="176" width="40" height="160" rx="8"/>
-    <rect x="376" y="216" width="40" height="80" rx="8"/>
+  <rect width="512" height="512" fill="#000000"/>
+  <!-- Hantel wie das Marken-Icon in der App (24er-Raster, Faktor 16), weiß gefüllt -->
+  <g fill="#ffffff" transform="translate(64 64) scale(16)">
+    <rect x="1.5" y="8" width="3.5" height="8" rx="1.2"/>
+    <rect x="5.5" y="5" width="3.5" height="14" rx="1.4"/>
+    <rect x="9" y="11.1" width="6" height="1.8" rx="0.6"/>
+    <rect x="15" y="5" width="3.5" height="14" rx="1.4"/>
+    <rect x="19" y="8" width="3.5" height="8" rx="1.2"/>
   </g>
 </svg>

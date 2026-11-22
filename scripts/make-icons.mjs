@@ -15,7 +15,7 @@ async function render(file, size, scale = 1) {
   const pad = Math.round((size - inner) / 2);
   await page.setViewportSize({ width: size, height: size });
   await page.setContent(
-    `<body style="margin:0;background:#0f766e"><div style="padding:${pad}px">` +
+    `<body style="margin:0;background:#000000"><div style="padding:${pad}px">` +
       `<img style="width:${inner}px;height:${inner}px;display:block" src="data:image/svg+xml;base64,${Buffer.from(svg).toString('base64')}"></div></body>`,
   );
   await page.screenshot({ path: new URL(`../public/${file}`, import.meta.url).pathname });
