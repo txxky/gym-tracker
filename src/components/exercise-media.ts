@@ -3,6 +3,7 @@ import { ICON } from '../lib/icons';
 import { exerciseImageUrls } from '../lib/images';
 import { muscleLabel } from '../lib/muscles';
 import type { Exercise } from '../lib/types';
+import { segmented, type Segmented } from './ui';
 
 function placeholder(ex: Exercise, big: boolean): HTMLElement {
   return h(
@@ -46,18 +47,21 @@ export function exerciseGallery(ex: Exercise): HTMLElement {
     holder.appendChild(h('div', { class: 'media media-big' }, placeholder(ex, true)));
     return root;
   }
-  const show = (i: number) => {
-    holder.replaceChildren(lazyImg(urls[i], ex.name, ex, true, blob));
-    buttons.forEach((b, j) => b.setAttribute('aria-pressed', String(i === j)));
-  };
+  let shownIndex = 0;
   const labels = ['Start', 'Ende'];
-  const buttons = urls.length > 1
-    ? urls.map((_, i) => h('button', { class: 'seg-btn', type: 'button', 'aria-pressed': 'false', onclick: () => show(i) }, labels[i] ?? String(i + 1)))
-    : [];
+  const seg: Segmented<string> | null = urls.length > 1
+    ? segmented({ options: urls.map((_, i): [string, string] => [String(i), labels[i] ?? String(i + 1)]), value: '0', label: 'Bild', onChange: (v) => show(Number(v)) })
+    : null;
+  function show(i: number) {
+    shownIndex = i;
+    holder.replaceChildren(lazyImg(urls[i], ex.name, ex, true, blob));
+    seg?.setValue(String(i));
+  }
   show(0);
-  if (buttons.length) {
-    holder.addEventListener('click', () => show(buttons.findIndex((b) => b.getAttribute('aria-pressed') === 'true') === 0 ? 1 : 0));
-    root.appendChild(h('div', { class: 'segmented gallery-switch' }, buttons));
+  if (seg) {
+    holder.addEventListener('click', () => show(shownIndex === 0 ? 1 : 0));
+    seg.el.classList.add('gallery-switch');
+    root.appendChild(seg.el);
   }
   return root;
 }

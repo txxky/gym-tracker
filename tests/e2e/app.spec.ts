@@ -37,15 +37,15 @@ test('Theme: gespeicherte Wahl gilt schon vor dem ersten Paint, Umschalter wechs
   await page.goto('./');
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
   const bg = await page.evaluate(() => getComputedStyle(document.body).backgroundColor);
-  expect(bg).toBe('rgb(15, 18, 22)');
+  expect(bg).toBe('rgb(0, 0, 0)');
   // meta theme-color zieht mit
-  await expect(page.locator('meta[name="theme-color"]')).toHaveAttribute('content', '#0f1216');
+  await expect(page.locator('meta[name="theme-color"]')).toHaveAttribute('content', /^#000(000)?$/);
   // Zyklus: dunkel -> system -> hell
   await page.getByTestId('theme-toggle').click();
   await expect(page.locator('html')).toHaveAttribute('data-theme-pref', 'system');
   await page.getByTestId('theme-toggle').click();
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'light');
-  await expect(page.locator('meta[name="theme-color"]')).toHaveAttribute('content', '#f4f5f7');
+  await expect(page.locator('meta[name="theme-color"]')).toHaveAttribute('content', '#f2f2f7');
 });
 
 test('Theme: Standard ist System und folgt der Systemeinstellung', async ({ browser }) => {

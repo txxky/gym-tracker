@@ -10,6 +10,7 @@ import {
   AVG_IMAGE_BYTES, cachedImageCount, collectImageUrls, downloadImages, exerciseImageUrls, formatMB,
 } from '../lib/images';
 import type { RouteContext } from '../lib/router';
+import { segmented, switchRow, type Segmented } from '../components/ui';
 import { getThemePref, setThemePref, type ThemePref } from '../lib/theme';
 
 export const DEFAULT_REST_KEY = 'defaultRestSec';
@@ -18,18 +19,21 @@ export const DEFAULT_REST_SEC = 90;
 const THEMES: Array<[ThemePref, string]> = [['light', 'Hell'], ['dark', 'Dunkel'], ['system', 'System']];
 
 function themeSection(): HTMLElement {
-  const buttons = THEMES.map(([value, label]) =>
-    h('button', { class: 'seg-btn', type: 'button', 'data-theme-pref': value, 'aria-pressed': String(getThemePref() === value), onclick: () => setThemePref(value) }, label));
-  const sync = () => buttons.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.themePref === getThemePref())));
+  const ctl: Segmented<ThemePref> = segmented({
+    options: THEMES, value: getThemePref(), label: 'Darstellung', testId: 'theme-pref', onChange: (v) => setThemePref(v),
+  });
+  // Der Umschalter in der oberen Leiste ändert die Wahl ebenfalls
+  const sync = () => {
+    if (!ctl.el.isConnected) { window.removeEventListener('themechange', sync); return; }
+    ctl.setValue(getThemePref());
+  };
   window.addEventListener('themechange', sync);
-  return h('section', { class: 'card' }, h('h2', null, 'Darstellung'), h('div', { class: 'segmented' }, buttons));
+  return h('section', { class: 'card' }, h('h2', null, 'Darstellung'), ctl.el);
 }
 
 async function toggleRow(id: string, label: string, key: string, fallback: boolean): Promise<HTMLElement> {
-  const box = h('input', { type: 'checkbox', class: 'check', id, 'data-testid': id });
-  box.checked = await getSetting<boolean>(key, fallback);
-  box.addEventListener('change', () => { void setSetting(key, box.checked); });
-  return h('label', { class: 'check-row', for: id }, box, h('span', null, label));
+  const checked = await getSetting<boolean>(key, fallback);
+  return switchRow({ id, label, checked, onChange: (c) => { void setSetting(key, c); } }).el;
 }
 
 async function trainingSection(): Promise<HTMLElement> {

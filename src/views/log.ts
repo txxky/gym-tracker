@@ -24,7 +24,7 @@ export async function renderLog({ root, params, isCurrent }: RouteContext): Prom
   const sessionId = Number(params[0]);
   const session = await db.sessions.get(sessionId);
   if (!isCurrent()) return;
-  setHeader({ title: session?.dayName ?? 'Training', back: '/training' });
+  setHeader({ title: session?.dayName ?? 'Training', back: '/training', large: false });
   if (!session || session.endedAt !== null) {
     root.append(h('div', { class: 'empty' }, h('h2', null, session ? 'Dieses Training ist schon beendet' : 'Training nicht gefunden'),
       h('a', { class: 'btn btn-primary', href: '#/training' }, 'Zum Training')));

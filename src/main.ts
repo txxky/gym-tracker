@@ -1,7 +1,9 @@
 import { registerSW } from 'virtual:pwa-register';
 import './styles/theme.css';
+import './styles/tokens.css';
+import './styles/components.css';
 import './styles/app.css';
-import { mountShell, setActiveTab } from './components/shell';
+import { mountShell, resetScroll, setActiveTab } from './components/shell';
 import { ensureExercisesSeeded } from './lib/exercises';
 import { startRouter, type Routes } from './lib/router';
 import { initTheme } from './lib/theme';
@@ -35,6 +37,7 @@ async function boot() {
   await ensureSplitsSeeded();
   startRouter(root, routes, (path) => {
     setActiveTab(path);
+    resetScroll();
     // Fokus-Modus beim Loggen: Tab-Leiste ausblenden
     document.body.classList.toggle('focus-mode', path.startsWith('/log'));
   });

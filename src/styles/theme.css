@@ -1,42 +1,78 @@
-/* Alle Farben der App leben ausschließlich hier. Sonst nirgends Farbwerte verwenden. */
+/*
+ * Alle Farben der App leben ausschließlich hier. Sonst nirgends Farbwerte verwenden.
+ * Monochrom (Schwarz, Weiß, Grautöne) nach dem Vorbild von iOS: "grouped background" mit Karten darauf.
+ * Ein funktionaler Akzent: --today (heutiger Tag). Dazu die Zustandsfarben --danger und --success.
+ */
 :root {
   color-scheme: light;
-  --bg: #f4f5f7;
+  /* Ebenen */
+  --bg: #f2f2f7;
   --surface: #ffffff;
-  --surface-2: #eceef2;
-  --text: #14171c;
-  --text-muted: #4b5563;
-  --border: #c9cfd8;
-  --accent: #0f766e;
+  --surface-2: #e9e9ee;
+  --text: #000000;
+  --text-muted: #5c5c61;
+  --border: #c6c6c8;
+  /* Primär = Tinte: schwarz auf weiß (hell), weiß auf schwarz (dunkel) */
+  --accent: #000000;
   --on-accent: #ffffff;
-  --accent-soft: #d5ede9;
-  --danger: #b42318;
+  --accent-soft: #e5e5ea;
+  /* Zustände */
+  --danger: #c0261b;
   --on-danger: #ffffff;
-  --success: #166534;
-  --overlay: #14171c99;
-  --shadow: #14171c26;
+  --success: #1a7a3a;
+  --today: #d6281f;
+  /* Kalender: Training = Tinte, Check-in = mittleres Grau */
+  --fill-mid: #d1d1d6;
+  /* Segmented Control und Schalter */
+  --thumb: #ffffff;
+  --toggle-off: #d1d1d6;
+  --knob: #ffffff;
+  /* Material (Leisten, Sheets): halbtransparent, mit Blur. --material-solid ist der Fallback ohne backdrop-filter. */
+  --material: #fafafae0;
+  --material-solid: #fafafa;
+  /* Transparenzen und Schatten */
+  --overlay: #00000066;
+  --shadow: #00000026;
+  --shadow-soft: #0000001a;
+  --press: #0000000f;
+  --hover: #0000000a;
+  --press-ink: #ffffff38;
+  --hover-ink: #ffffff24;
   --mask-on: #000000;
   /* Diagramm */
   --chart-line: var(--accent);
-  --chart-fill: var(--accent-soft);
+  --chart-fill: #0000001a;
   --chart-grid: var(--border);
   --chart-text: var(--text-muted);
 }
 
 [data-theme="dark"] {
   color-scheme: dark;
-  --bg: #0f1216;
-  --surface: #181c22;
-  --surface-2: #222831;
-  --text: #eef1f5;
-  --text-muted: #a3acb9;
-  --border: #3a424e;
-  --accent: #2dd4bf;
-  --on-accent: #04201d;
-  --accent-soft: #123a36;
-  --danger: #ff8a80;
-  --on-danger: #2a0805;
-  --success: #6ee7a0;
-  --overlay: #000000b3;
-  --shadow: #00000066;
+  --bg: #000000;
+  --surface: #1c1c1e;
+  --surface-2: #2c2c2e;
+  --text: #ffffff;
+  --text-muted: #aeaeb2;
+  --border: #38383a;
+  --accent: #ffffff;
+  --on-accent: #000000;
+  --accent-soft: #2c2c2e;
+  --danger: #ff6961;
+  --on-danger: #1a0302;
+  --success: #5fd38a;
+  --today: #ff6b63;
+  --fill-mid: #48484a;
+  --thumb: #000000;
+  --toggle-off: #39393d;
+  --knob: #ffffff;
+  --material: #1c1c1ee0;
+  --material-solid: #1c1c1e;
+  --overlay: #000000a6;
+  --shadow: #00000099;
+  --shadow-soft: #00000066;
+  --press: #ffffff1a;
+  --hover: #ffffff12;
+  --press-ink: #0000002e;
+  --hover-ink: #0000001f;
+  --chart-fill: #ffffff1f;
 }

@@ -11,10 +11,11 @@ import {
   filterByRange, type Filters, type Metric, type Range, type View,
 } from '../lib/progress';
 import type { RouteContext } from '../lib/router';
+import { segmented, type Segmented } from '../components/ui';
 
 const VIEWS: Array<[View, string]> = [['total', 'Gesamt'], ['exercise', 'Übung'], ['muscle', 'Muskel'], ['day', 'Split-Tag']];
 const RANGES: Array<[Range, string]> = [['4w', '4 Wochen'], ['3m', '3 Monate'], ['1y', '1 Jahr'], ['all', 'Alles']];
-const METRICS: Array<[Metric, string]> = [['e1rm', '1RM'], ['volume', 'Volumen'], ['top', 'Top-Set'], ['sets', 'Sätze/Woche']];
+const METRICS: Array<[Metric, string]> = [['e1rm', '1RM'], ['volume', 'Volumen'], ['top', 'Top-Set'], ['sets', 'Sätze/\u200bWoche']];
 const METRIC_TITLE: Record<Metric, string> = {
   e1rm: 'Geschätztes 1RM (Epley)', volume: 'Volumen (kg x Wdh.)', top: 'Top-Set-Gewicht', sets: 'Sätze pro Woche',
 };
@@ -34,13 +35,8 @@ function saveFilters(f: Filters): void {
   try { localStorage.setItem(STORE, JSON.stringify(f)); } catch { /* ignorieren */ }
 }
 
-function segmented<T extends string>(label: string, options: Array<[T, string]>, value: T, onPick: (v: T) => void, testId: string): HTMLElement {
-  const buttons = options.map(([v, text]) => h('button', {
-    class: 'seg-btn', type: 'button', 'aria-pressed': String(v === value), 'data-value': v, 'data-testid': `${testId}-${v}`,
-    onclick: () => onPick(v),
-  }, text));
-  return h('div', { class: 'filter-group', role: 'group', 'aria-label': label },
-    h('span', { class: 'filter-label' }, label), h('div', { class: 'segmented segmented-sm' }, buttons));
+function segmentGroup<T extends string>(label: string, ctl: Segmented<T>): HTMLElement {
+  return h('div', { class: 'filter-group' }, h('span', { class: 'filter-label' }, label), ctl.el);
 }
 
 export async function renderProgress({ root, isCurrent }: RouteContext): Promise<void> {
@@ -97,15 +93,21 @@ export async function renderProgress({ root, isCurrent }: RouteContext): Promise
     return h('label', { class: 'field filter-sub' }, h('span', null, label), sel);
   }
 
+  // Die drei Umschalter werden nur einmal gebaut, damit der Daumen gleiten kann. Nur die Unterauswahl wird neu gezeichnet.
+  const viewCtl: Segmented<View> = segmented({ options: VIEWS, value: f.view, label: 'Ansicht', small: true, testId: 'view',
+    onChange: (v) => { f.view = v; saveFilters(f); drawFilters(); drawData(); } });
+  const rangeCtl: Segmented<Range> = segmented({ options: RANGES, value: f.range, label: 'Zeitraum', small: true, testId: 'range',
+    onChange: (v) => { f.range = v; saveFilters(f); drawData(); } });
+  const metricCtl: Segmented<Metric> = segmented({ options: METRICS, value: f.metric, label: 'Kennzahl', small: true, testId: 'metric',
+    onChange: (v) => { f.metric = v; saveFilters(f); drawData(); } });
+  const subSlot = h('div', { class: 'filter-slot' });
+  filtersEl.append(segmentGroup('Ansicht', viewCtl), subSlot, segmentGroup('Zeitraum', rangeCtl), segmentGroup('Kennzahl', metricCtl));
+
   function drawFilters() {
     normalize();
-    const parts = [
-      segmented('Ansicht', VIEWS, f.view, (v) => { f.view = v; saveFilters(f); drawFilters(); drawData(); }, 'view'),
-      subFilter(),
-      segmented('Zeitraum', RANGES, f.range, (v) => { f.range = v; saveFilters(f); drawFilters(); drawData(); }, 'range'),
-      segmented('Kennzahl', METRICS, f.metric, (v) => { f.metric = v; saveFilters(f); drawFilters(); drawData(); }, 'metric'),
-    ];
-    filtersEl.replaceChildren(...parts.filter((p): p is HTMLElement => p !== null));
+    const sub = subFilter();
+    subSlot.replaceChildren(...(sub ? [sub] : []));
+    subSlot.hidden = !sub;
   }
 
   function drawData() {
@@ -145,7 +147,7 @@ export async function renderProgress({ root, isCurrent }: RouteContext): Promise
     const prs = personalRecords(inView);
     prEl.replaceChildren(h('h2', null, 'Rekorde'),
       prs.length
-        ? h('div', { class: 'list', 'data-testid': 'pr-list' }, prs.slice(0, 50).map((p) => {
+        ? h('div', { class: 'stack', 'data-testid': 'pr-list' }, prs.slice(0, 50).map((p) => {
           const fresh = now - p.latest <= NEW_PR_DAYS * 86_400_000;
           return h('div', { class: 'pr-row', 'data-testid': 'pr-row' },
             h('div', { class: 'pr-head' }, h('strong', null, p.name), fresh ? h('span', { class: 'chip chip-accent chip-inline' }, 'Neu') : null),

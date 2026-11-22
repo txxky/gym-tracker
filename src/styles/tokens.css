@@ -1,0 +1,58 @@
+/* Keine Farbwerte hier. Typografie, Raster, Radien, Bewegung. Farben stehen in theme.css. */
+:root {
+  /* Typografie (Skala wie iOS). Auf iPhones wird daraus SF Pro, ohne dass eine Schrift geladen wird. */
+  --font: -apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, sans-serif;
+  --fs-large-title: 34px; --lh-large-title: 41px;
+  --fs-title: 28px; --lh-title: 34px;
+  --fs-title2: 22px; --lh-title2: 28px;
+  --fs-headline: 17px; --lh-headline: 22px;
+  --fs-body: 17px; --lh-body: 22px;
+  --fs-subhead: 15px; --lh-subhead: 20px;
+  --fs-footnote: 13px; --lh-footnote: 18px;
+  --fs-caption: 12px; --lh-caption: 16px;
+  --tracking-large: -0.02em;
+  --tracking-title: -0.015em;
+
+  /* 8-Punkte-Raster */
+  --s1: 4px; --s2: 8px; --s3: 12px; --s4: 16px; --s5: 24px; --s6: 32px; --s7: 48px;
+
+  /* Radien */
+  --r-card: 20px;
+  --r-group: 16px;
+  --r-ctrl: 14px;
+  --r-field: 12px;
+  --r-sheet: 24px;
+  --r-pill: 999px;
+  --hairline: 0.5px;
+
+  /* Leisten */
+  --bar-h: 52px;
+  --tabbar-h: 56px;
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --header-h: calc(var(--bar-h) + var(--safe-top));
+
+  /* Bewegung: Federkurve als linear() (Überschwingen ca. 8 %), Fallback cubic-bezier */
+  --dur-s: 200ms;
+  --dur-m: 300ms;
+  --dur-l: 400ms;
+  /* Überblenden (opacity) bleibt auch bei "weniger Bewegung" kurz erhalten, nur Schieben und Federn entfällt */
+  --dur-fade: 200ms;
+  --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --ease-spring: cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+@supports (transition-timing-function: linear(0, 1)) {
+  :root {
+    --ease-spring: linear(0, 0.0521, 0.1782, 0.3401, 0.5094, 0.6672, 0.8021, 0.9089, 0.9872, 1.0393, 1.0693, 1.0821, 1.0824, 1.0746, 1.0623, 1.0482, 1.0344, 1.022, 1.0119, 1.0041, 0.9987, 0.9953, 0.9935, 0.993, 0.9934, 0.9942, 0.9954, 0.9965, 1);
+  }
+}
+
+/* Weiche Kontinuität (iOS-Ecken), wo der Browser es kann; sonst normale Rundung */
+@supports (corner-shape: squircle) {
+  .card, .btn, .input, .list-group, .sheet, .segmented, .wheel-frame { corner-shape: squircle; }
+}
+
+/* Weniger Bewegung: nichts schiebt oder federt, es wird nur noch überblendet */
+@media (prefers-reduced-motion: reduce) {
+  :root { --dur-s: 1ms; --dur-m: 1ms; --dur-l: 1ms; --dur-fade: 150ms; }
+}

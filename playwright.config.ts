@@ -9,6 +9,9 @@ export default defineConfig({
   use: {
     baseURL: 'http://localhost:4173/',
     ...devices['Pixel 7'],
+    // Bedienungstests laufen mit "weniger Bewegung": Boxen bleiben stabil, Sheets verschwinden sofort.
+    // Die Animationen selbst prüft tests/e2e/design.spec.ts mit reducedMotion: 'no-preference'.
+    reducedMotion: 'reduce',
     launchOptions: { executablePath, args: ['--no-sandbox'] },
   },
   webServer: {

@@ -39,7 +39,7 @@ export async function renderHistory({ root, isCurrent }: RouteContext): Promise<
   let exerciseFilter = '';
 
   const filterEl = h('select', { class: 'input', 'aria-label': 'Übung filtern', 'data-testid': 'history-filter' });
-  const listEl = h('div', { class: 'list history', 'data-testid': 'history-list' });
+  const listEl = h('div', { class: 'stack history', 'data-testid': 'history-list' });
   const moreBtn = h('button', { class: 'btn btn-ghost btn-block', type: 'button', 'data-testid': 'history-more' }, 'Ältere laden');
   moreBtn.addEventListener('click', () => { shown += PAGE; void draw(); });
   filterEl.addEventListener('change', () => { exerciseFilter = filterEl.value; shown = PAGE; void draw(); });

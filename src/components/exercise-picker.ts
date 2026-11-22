@@ -100,7 +100,7 @@ export function openCustomExerciseForm(onSaved: (ex: Exercise) => void): void {
 
 /** Suche mit Muskel- und Equipment-Filter. Öffnet als Sheet. */
 export function openExercisePicker(opts: PickerOptions = {}): void {
-  const sheet = openSheet(opts.title ?? 'Übungen');
+  const sheet = openSheet(opts.title ?? 'Übungen', { tall: true });
   const q = h('input', { class: 'input', type: 'search', placeholder: 'Übung suchen (z. B. bench press)', 'aria-label': 'Suche', 'data-testid': 'search' });
   const equipment = h('select', { class: 'input', 'aria-label': 'Equipment-Filter', 'data-testid': 'filter-equipment' }, [
     h('option', { value: '' }, 'Alle Geräte'),

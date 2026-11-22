@@ -7,7 +7,6 @@ export interface SortableOptions {
   onMove: (from: number, to: number) => void;
 }
 
-const GAP = 8;
 
 /**
  * Drag-and-drop-Sortierung per Pointer Events (Maus und Touch). Der Handle braucht `touch-action: none`.
@@ -48,6 +47,8 @@ export function makeSortable({ list, handle, onMove }: SortableOptions): void {
     let raf = 0;
     row.classList.add('is-dragging');
 
+    // Abstand zwischen den Einträgen aus dem CSS lesen (bei gruppierten Listen 0)
+    const GAP = parseFloat(getComputedStyle(list).rowGap) || 0;
     const step = row.offsetHeight + GAP;
 
     function apply() {
