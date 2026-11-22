@@ -73,3 +73,14 @@ Einmalig in GitHub einstellen: **Settings > Pages > Build and deployment > Sourc
 - **Daten**: Trainings haben ein Feld `type` (`full` oder `checkin`); alte Daten ohne das Feld gelten als `full` (Dexie-Upgrade auf Version 2). Das Backup hat Version 2 (mit Profil); Version-1-Dateien lassen sich weiter einlesen und lassen ein vorhandenes Profil unangetastet.
 - **Screenshots** zur Design-Prüfung: `npm run build && npx vite preview --port 4174 &`, dann `PW_CHROMIUM=<pfad> node scripts/screenshots.mjs <ordner>`.
 - **Daten sichern**: Einstellungen > Daten > "Alle Daten exportieren". Browserdaten können gelöscht werden (z. B. "Website-Daten löschen"), eine Sicherung schützt davor.
+
+## Lizenzen und Quellen
+
+Zero Lift ist ein privates, nicht kommerzielles Projekt für den Eigengebrauch. Das ist keine Rechtsberatung.
+
+- **Übungsdaten und Bilder**: [free-exercise-db](https://github.com/yuhonas/free-exercise-db) von yuhonas, veröffentlicht unter der [Unlicense](https://unlicense.org/) (gemeinfrei). Die Daten (`src/data/exercises.json`) liegen im Repo, die Bilder werden zur Laufzeit direkt von `raw.githubusercontent.com` geladen und nicht von dieser App ausgeliefert. Die ursprüngliche Herkunft der Bilder innerhalb dieses Projekts konnte nicht geprüft werden.
+- **Bibliotheken** (jeweils mit eigener Lizenz im jeweiligen Paket): Chart.js (MIT), Dexie (Apache-2.0), Vite und vite-plugin-pwa (MIT). Zum Entwickeln: TypeScript, Vitest, Playwright, fake-indexeddb (MIT bzw. Apache-2.0).
+- **Schrift**: es wird keine Schriftdatei ausgeliefert. Die App nutzt die Systemschrift des Geräts (auf iPhones SF Pro, die Apple dort bereitstellt).
+- **Logo und App-Icon**: eigene Zeichnung (einfache Hantel aus Rechtecken, `public/icon.svg`), keine fremden Assets.
+- **Name "Zero Lift"**: es wurde nicht auf Markenrechte Dritter geprüft. Vor einer öffentlichen Bewerbung oder Veröffentlichung in einem App Store bitte bei DPMA, EUIPO und TMview recherchieren.
+- **Datenschutz**: kein Account, kein Tracking, keine Cloud. Alle Daten liegen lokal im Browser (IndexedDB). Beim Aufruf der Seite und beim Laden der Übungsbilder sieht GitHub die IP-Adresse, wie bei jeder Webseite.
