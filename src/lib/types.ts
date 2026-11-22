@@ -49,8 +49,12 @@ export interface Split {
   createdAt: number;
 }
 
+export type SessionType = 'full' | 'checkin';
+
 export interface Session {
   id?: number;
+  /** 'checkin' = nur im Gym gewesen (ohne Sätze). Fehlt das Feld (alte Daten), gilt 'full'. */
+  type?: SessionType;
   startedAt: number;
   endedAt: number | null;
   splitId: string | null;
@@ -74,4 +78,19 @@ export interface SetLog {
 export interface SettingRow {
   key: string;
   value: unknown;
+}
+
+export type Gender = 'female' | 'male' | 'diverse';
+
+/** Lokales Profil (eine Zeile mit id 'me'). Alles optional außer der id. */
+export interface Profile {
+  id: 'me';
+  username: string;
+  photo?: Blob;
+  heightCm: number | null;
+  weightKg: number | null;
+  birthYear: number | null;
+  gender: Gender | null;
+  goal: string;
+  updatedAt: number;
 }

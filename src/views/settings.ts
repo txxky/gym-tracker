@@ -4,12 +4,14 @@ import { setHeader } from '../components/shell';
 import { db, getSetting, setSetting } from '../lib/db';
 import { backupFileName, buildBackup, parseBackup, restoreBackup } from '../lib/backup';
 import { h } from '../lib/dom';
+import { CHECKIN_ADVANCE_KEY } from '../lib/log';
 import { allExercises, invalidateExercises } from '../lib/exercises';
 import { pickTextFile, shareOrDownload } from '../lib/files';
 import {
   AVG_IMAGE_BYTES, cachedImageCount, collectImageUrls, downloadImages, exerciseImageUrls, formatMB,
 } from '../lib/images';
 import type { RouteContext } from '../lib/router';
+import { segmented, switchRow, type Segmented } from '../components/ui';
 import { getThemePref, setThemePref, type ThemePref } from '../lib/theme';
 
 export const DEFAULT_REST_KEY = 'defaultRestSec';
@@ -18,18 +20,21 @@ export const DEFAULT_REST_SEC = 90;
 const THEMES: Array<[ThemePref, string]> = [['light', 'Hell'], ['dark', 'Dunkel'], ['system', 'System']];
 
 function themeSection(): HTMLElement {
-  const buttons = THEMES.map(([value, label]) =>
-    h('button', { class: 'seg-btn', type: 'button', 'data-theme-pref': value, 'aria-pressed': String(getThemePref() === value), onclick: () => setThemePref(value) }, label));
-  const sync = () => buttons.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.themePref === getThemePref())));
+  const ctl: Segmented<ThemePref> = segmented({
+    options: THEMES, value: getThemePref(), label: 'Darstellung', testId: 'theme-pref', onChange: (v) => setThemePref(v),
+  });
+  // Der Umschalter in der oberen Leiste ändert die Wahl ebenfalls
+  const sync = () => {
+    if (!ctl.el.isConnected) { window.removeEventListener('themechange', sync); return; }
+    ctl.setValue(getThemePref());
+  };
   window.addEventListener('themechange', sync);
-  return h('section', { class: 'card' }, h('h2', null, 'Darstellung'), h('div', { class: 'segmented' }, buttons));
+  return h('section', { class: 'card' }, h('h2', null, 'Darstellung'), ctl.el);
 }
 
 async function toggleRow(id: string, label: string, key: string, fallback: boolean): Promise<HTMLElement> {
-  const box = h('input', { type: 'checkbox', class: 'check', id, 'data-testid': id });
-  box.checked = await getSetting<boolean>(key, fallback);
-  box.addEventListener('change', () => { void setSetting(key, box.checked); });
-  return h('label', { class: 'check-row', for: id }, box, h('span', null, label));
+  const checked = await getSetting<boolean>(key, fallback);
+  return switchRow({ id, label, checked, onChange: (c) => { void setSetting(key, c); } }).el;
 }
 
 async function trainingSection(): Promise<HTMLElement> {
@@ -40,8 +45,9 @@ async function trainingSection(): Promise<HTMLElement> {
   });
   const rpe = await toggleRow('use-rpe', 'RPE-Rad beim Loggen anzeigen', 'useRpe', false);
   const auto = await toggleRow('rest-auto', 'Pausentimer nach jedem Satz starten', 'restAuto', true);
+  const checkin = await toggleRow('checkin-advance-default', 'Check-in ("Ich war im Gym") rückt den Zyklus standardmäßig weiter', CHECKIN_ADVANCE_KEY, true);
   const sound = await toggleRow('rest-sound', 'Ton am Pausenende (zusätzlich zur Vibration)', 'restSound', false);
-  return h('section', { class: 'card' }, h('h2', null, 'Training'), rpe, auto, sound,
+  return h('section', { class: 'card' }, h('h2', null, 'Training'), rpe, auto, sound, checkin,
     h('p', { class: 'muted' }, 'Pausenzeit, die neue Übungen im Builder vorgeschlagen bekommen.'), wheel.el,
     h('p', { class: 'muted small' }, 'Der Timer läuft mit Zeitstempel und stimmt auch, wenn das Handy kurz sperrt. Vibration und Ton klappen nur bei geöffneter App; iPhones vibrieren nicht.'));
 }

@@ -1,4 +1,4 @@
-const S = 'xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"';
+const S = 'xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"';
 const wrap = (inner: string) => `<svg ${S}>${inner}</svg>`;
 
 export const ICON = {
@@ -18,5 +18,9 @@ export const ICON = {
   download: wrap('<path d="M12 3v12M7 10l5 5 5-5M5 21h14"/>'),
   dumbbell: wrap('<path d="M6.5 6.5v11M17.5 6.5v11M3 9v6M21 9v6M6.5 12h11"/>'),
   trash: wrap('<path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14"/>'),
+  calendar: wrap('<rect x="3.5" y="5" width="17" height="15.5" rx="3"/><path d="M3.5 10h17M8 3v4M16 3v4"/>'),
+  person: wrap('<circle cx="12" cy="8.5" r="3.75"/><path d="M4.75 20a7.25 7.25 0 0 1 14.5 0"/>'),
+  checkCircle: wrap('<circle cx="12" cy="12" r="9"/><path d="m8 12.5 3 3 5-6"/>'),
+  check: wrap('<path d="m5 12.5 4.5 4.5L19 7.5"/>'),
   camera: wrap('<path d="M4 8h3l2-3h6l2 3h3v12H4z"/><circle cx="12" cy="13" r="4"/>'),
 } as const;

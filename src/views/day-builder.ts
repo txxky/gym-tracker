@@ -4,6 +4,7 @@ import { openPlanEditor } from '../components/plan-editor';
 import { openSheet, toast } from '../components/modal';
 import { setHeader } from '../components/shell';
 import { makeSortable } from '../components/sortable';
+import { switchRow } from '../components/ui';
 import { getSetting } from '../lib/db';
 import { h, svg } from '../lib/dom';
 import { allExercises } from '../lib/exercises';
@@ -93,14 +94,12 @@ export async function renderDayBuilder({ root, params, isCurrent }: RouteContext
     ]);
     weekday.value = d.weekday === null ? '' : String(d.weekday);
     weekday.addEventListener('change', () => { void patchDay({ weekday: weekday.value === '' ? null : Number(weekday.value) }, false); });
-    const restToggle = h('input', { type: 'checkbox', class: 'check', id: 'rest-toggle', 'data-testid': 'day-rest' });
-    restToggle.checked = d.rest;
-    restToggle.addEventListener('change', () => { void patchDay({ rest: restToggle.checked }); });
+    const restToggle = switchRow({ id: 'day-rest', label: 'Ruhetag (kein Training)', checked: d.rest, onChange: (c) => { void patchDay({ rest: c }); } });
 
     const settingsCard = h('section', { class: 'card' },
       h('h2', null, 'Tag-Einstellungen'),
       h('label', { class: 'field' }, h('span', null, 'Name'), nameInput),
-      h('label', { class: 'check-row', for: 'rest-toggle' }, restToggle, h('span', null, 'Ruhetag (kein Training)')),
+      restToggle.el,
       !d.rest ? h('div', { class: 'field' }, h('span', null, 'Muskel-Fokus'),
         h('div', { class: 'chip-row' }, d.focus.length ? d.focus.map((m) => h('span', { class: 'chip chip-accent' }, muscleLabel(m))) : h('span', { class: 'muted' }, 'Noch keiner gewählt')),
         h('button', { class: 'btn btn-ghost', type: 'button', 'data-testid': 'edit-focus',

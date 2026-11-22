@@ -34,7 +34,8 @@ export interface SetRec {
 
 /** Sätze mit Datum, Tag und Muskeln anreichern. Sätze ohne Session werden übersprungen. */
 export function buildRecords(sets: SetLog[], sessions: Session[], exercises: Exercise[]): SetRec[] {
-  const sess = new Map(sessions.map((s) => [s.id, s]));
+  // Check-ins (nur im Gym gewesen) zählen nie für Diagramme, Rekorde, Volumen oder Sätze pro Woche
+  const sess = new Map(sessions.filter((s) => s.type !== 'checkin').map((s) => [s.id, s]));
   const ex = new Map(exercises.map((e) => [e.id, e]));
   return sets.flatMap((set) => {
     const s = sess.get(set.sessionId);

@@ -1,6 +1,14 @@
 import { db, type GymDB } from './db';
-import { advanceCycle } from './split-logic';
-import type { PlannedExercise, Session, SetLog, Split } from './types';
+import { advanceCycle, currentDay } from './split-logic';
+import type { PlannedExercise, Session, SessionType, SetLog, Split } from './types';
+
+/** Einstellung: rückt ein Check-in den Zyklus-Zeiger standardmäßig weiter? (Standard: ja) */
+export const CHECKIN_ADVANCE_KEY = 'checkinAdvance';
+export const CHECKIN_LABEL = 'Im Gym';
+
+/** Alte Daten haben kein type-Feld: sie sind volle Trainings. */
+export const sessionType = (s: Pick<Session, 'type'>): SessionType => (s.type === 'checkin' ? 'checkin' : 'full');
+export const isCheckin = (s: Pick<Session, 'type'>): boolean => sessionType(s) === 'checkin';
 
 export const KG = { min: 0, max: 500, step: 2.5, fallback: 20 } as const;
 export const REPS = { min: 1, max: 50 } as const;
@@ -58,7 +66,7 @@ export function firstIncomplete(plans: PlannedExercise[], counts: number[]): num
 // ---- Datenbank ----
 
 export async function getOpenSession(d: GymDB = db): Promise<Session | undefined> {
-  return d.sessions.filter((s) => s.endedAt === null).first();
+  return d.sessions.filter((s) => s.endedAt === null && !isCheckin(s)).first();
 }
 
 /** Startet ein Training. Läuft schon eines, wird dieses zurückgegeben (es gibt immer nur ein offenes). */
@@ -66,7 +74,7 @@ export async function startSession(split: Split, dayId: string, now = Date.now()
   const open = await getOpenSession(d);
   if (open?.id !== undefined) return open.id;
   const day = split.days.find((x) => x.id === dayId);
-  return d.sessions.add({ startedAt: now, endedAt: null, splitId: split.id, dayId, dayName: day?.name ?? 'Training' });
+  return d.sessions.add({ type: 'full', startedAt: now, endedAt: null, splitId: split.id, dayId, dayName: day?.name ?? 'Training' });
 }
 
 export async function setsForSession(sessionId: number, d: GymDB = db): Promise<SetLog[]> {
@@ -131,4 +139,25 @@ export async function discardSession(sessionId: number, d: GymDB = db): Promise<
 export async function skipToNextDay(splitId: string, d: GymDB = db): Promise<void> {
   const split = await d.splits.get(splitId);
   if (split) await d.splits.put(advanceCycle(split));
+}
+
+export interface CheckinOptions {
+  /** Zyklus-Zeiger hinter den heutigen Tag setzen (nur bei einem Trainingstag, nie bei Ruhetag) */
+  advance: boolean;
+}
+
+/**
+ * "Ich war im Gym": legt sofort ein abgeschlossenes Training ohne Sätze an (type 'checkin').
+ * Mit advance gilt der Tag "Als Nächstes" als erledigt (Name wird übernommen, der Zeiger rückt weiter),
+ * sonst heißt der Eintrag nur "Im Gym" und der Zyklus bleibt stehen.
+ * Check-ins fließen nie in Diagramme, Rekorde, Volumen oder Sätze pro Woche ein.
+ */
+export async function createCheckin(split: Split | undefined, opts: CheckinOptions, now = Date.now(), d: GymDB = db): Promise<number> {
+  const day = split ? currentDay(split) : undefined;
+  const counts = !!split && !!day && !day.rest && opts.advance;
+  const id = await d.sessions.add({
+    type: 'checkin', startedAt: now, endedAt: now, splitId: split?.id ?? null, dayId: counts ? day!.id : null, dayName: counts ? day!.name : CHECKIN_LABEL,
+  });
+  if (counts && split) await d.splits.put(advanceCycle(split));
+  return id;
 }

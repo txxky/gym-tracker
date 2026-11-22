@@ -76,7 +76,7 @@ export async function renderSplits({ root, isCurrent }: RouteContext): Promise<v
       h('button', { class: 'btn btn-ghost', type: 'button', 'data-testid': 'import-split', onclick: () => void importSplitFromFile() }, svg(ICON.download), 'Importieren')),
   );
 
-  if (active) root.append(h('section', null, h('h2', null, 'Aktiver Split'), splitCard(active, activeId)));
+  if (active) root.append(h('section', null, h('h2', null, 'Aktiver Split'), h('div', { class: 'list' }, splitCard(active, activeId))));
 
   root.append(h('section', null, h('h2', null, 'Meine Splits'),
     mine.length
