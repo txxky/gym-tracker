@@ -7,14 +7,14 @@ test.beforeEach(async ({ page }) => {
 // 1x1-PNG (rot), als Testfoto
 const PNG = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==', 'base64');
 
-test('Obere Leiste: Avatar links (Touch-Ziel), Theme rechts, öffnet das Profil, Zurück kehrt zurück', async ({ page }) => {
+test('Obere Leiste: Avatar rechts (Touch-Ziel), Marke links, öffnet das Profil, Zurück kehrt zurück', async ({ page }) => {
   await page.goto('./#/progress');
   const avatar = page.getByTestId('open-profile');
   const box = (await avatar.boundingBox())!;
   expect(box.width).toBeGreaterThanOrEqual(44);
   expect(box.height).toBeGreaterThanOrEqual(44);
   const theme = (await page.getByTestId('theme-toggle').boundingBox())!;
-  expect(box.x).toBeLessThan(theme.x);
+  expect(box.x).toBeGreaterThan(theme.x); // Profil sitzt ganz rechts, hinter dem Theme-Umschalter
   await expect(avatar.locator('svg')).toBeVisible(); // ohne Namen: Personen-Symbol
   await avatar.click();
   await expect(page).toHaveURL(/#\/profile$/);
@@ -82,4 +82,39 @@ test('Header passt auf 320 px Breite ohne Überlauf (Fortschritt hat die meisten
   const w = await page.evaluate(() => [document.documentElement.scrollWidth, document.querySelector('.app-header-bar')!.scrollWidth]);
   expect(w[0]).toBeLessThanOrEqual(320);
   expect(w[1]).toBeLessThanOrEqual(320);
+});
+
+test('Marke "Zero Lift" mit Hantel steht links auf jedem Hauptscreen, öffnet das Training, Titel und Manifest passen', async ({ page }) => {
+  for (const tab of ['training', 'splits', 'progress', 'settings']) {
+    await page.goto(`./#/${tab}`);
+    const brand = page.getByTestId('brand');
+    await expect(brand).toContainText('Zero Lift');
+    await expect(brand.locator('svg')).toBeVisible();
+    const b = (await brand.boundingBox())!;
+    expect(b.height).toBeGreaterThanOrEqual(44);
+    expect(b.x).toBeLessThan(40); // ganz links
+    expect(await page.title()).toContain('Zero Lift');
+  }
+  // Nach Scrollen bleibt die Marke da
+  await page.goto('./#/splits');
+  await page.getByTestId('scroller').evaluate((el) => { el.scrollTop = 400; });
+  await expect(page.getByTestId('brand')).toBeVisible();
+  await page.getByTestId('brand').click();
+  await expect(page).toHaveURL(/#\/training$/);
+  // Unterseiten: Zurück statt Marke
+  await page.goto('./#/profile');
+  await expect(page.getByTestId('brand')).toHaveCount(0);
+  await expect(page.getByTestId('back')).toBeVisible();
+  const manifest = await (await page.request.get('./manifest.webmanifest')).json();
+  expect(manifest.name).toBe('Zero Lift');
+});
+
+test('Marke und alle Symbole passen auf 320 px nebeneinander (Fortschritt hat die meisten)', async ({ page }) => {
+  await page.setViewportSize({ width: 320, height: 640 });
+  await page.goto('./#/progress');
+  await expect(page.getByTestId('large-title')).toHaveText('Fortschritt');
+  await expect(page.getByTestId('open-history')).toBeVisible();
+  const boxes = await Promise.all(['brand', 'open-history', 'open-calendar', 'theme-toggle', 'open-profile'].map(async (id) => (await page.getByTestId(id).boundingBox())!));
+  for (let i = 1; i < boxes.length; i++) expect(boxes[i].x).toBeGreaterThanOrEqual(boxes[i - 1].x + boxes[i - 1].width - 1); // keine Überlappung
+  expect(boxes[4].x + boxes[4].width).toBeLessThanOrEqual(320);
 });

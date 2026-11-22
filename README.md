@@ -1,4 +1,4 @@
-# Gym Tracker
+# Zero Lift
 
 Lokaler Trainingstracker für mich und Kollegen. Läuft im Browser, mobile first, als PWA installierbar, Oberfläche auf Deutsch.
 Keine Accounts, keine Cloud, kein Backend, kein Ernährungs-Tracking. Alle Daten bleiben auf dem Gerät (IndexedDB).

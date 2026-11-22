@@ -12,16 +12,16 @@ export default defineConfig({
       includeAssets: ['icon.svg', 'apple-touch-icon.png'],
       manifest: {
         id: './',
-        name: 'Gym Tracker',
-        short_name: 'Gym',
+        name: 'Zero Lift',
+        short_name: 'Zero Lift',
         description: 'Lokaler Trainingstracker ohne Account und Cloud',
         lang: 'de',
         start_url: './',
         scope: './',
         display: 'standalone',
-        // Das Manifest kennt keine CSS-Variablen, daher feste Werte (entsprechen --bg hell).
-        background_color: '#f4f5f7',
-        theme_color: '#f4f5f7',
+        // Das Manifest kennt keine CSS-Variablen, daher feste Werte (entsprechen --bg hell, siehe theme.css).
+        background_color: '#f2f2f7',
+        theme_color: '#f2f2f7',
         icons: [
           { src: 'pwa-192.png', sizes: '192x192', type: 'image/png' },
           { src: 'pwa-512.png', sizes: '512x512', type: 'image/png' },

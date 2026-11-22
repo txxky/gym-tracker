@@ -136,18 +136,28 @@ test('Sheet: von unten, Griff, schließt per Backdrop, Escape und Wischen nach u
   await expect(page.locator('.sheet-root')).toHaveCount(0, { timeout: 3000 });
 });
 
-test('Obere Leiste: großer Titel geht beim Scrollen in den kleinen Titel über', async ({ page }) => {
+test('Obere Leiste: großer Titel klappt beim Scrollen ein, Leiste bekommt Material', async ({ page }) => {
   await page.goto('./#/splits');
   const header = page.locator('.app-header');
   await expect(page.getByTestId('large-title')).toHaveText('Splits');
   await expect(header).not.toHaveClass(/is-collapsed/);
-  expect(Number(await css(page, '.app-header-title', 'opacity'))).toBe(0);
+  expect(Number(await css(page, '.app-header-bg', 'opacity'))).toBe(0);
   await page.getByTestId('scroller').evaluate((el) => { el.scrollTop = 400; });
   await expect(header).toHaveClass(/is-collapsed/);
-  await expect.poll(async () => Number(await css(page, '.app-header-title', 'opacity'))).toBe(1);
-  await expect(page.getByTestId('small-title')).toHaveText('Splits');
+  await expect.poll(async () => Number(await css(page, '.app-header-bg', 'opacity'))).toBe(1);
   await page.getByTestId('scroller').evaluate((el) => { el.scrollTop = 0; });
   await expect(header).not.toHaveClass(/is-collapsed/);
+});
+
+test('Unterseite: der Titel wird beim Scrollen klein, mittig und sichtbar', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 420 });
+  await page.goto('./#/calendar');
+  await expect(page.getByTestId('cal-month')).toBeVisible(); // erst wenn der Inhalt da ist, lässt sich scrollen
+  expect(Number(await css(page, '.app-header-title', 'opacity'))).toBe(0);
+  await page.getByTestId('scroller').evaluate((el) => { el.scrollTop = 400; });
+  await expect(page.locator('.app-header')).toHaveClass(/is-collapsed/);
+  await expect.poll(async () => Number(await css(page, '.app-header-title', 'opacity'))).toBe(1);
+  await expect(page.getByTestId('small-title')).toHaveText('Kalender');
 });
 
 test('Typografie: Systemschrift, Large Title 34/Bold, Body 17, tabellarische Ziffern', async ({ page }) => {
