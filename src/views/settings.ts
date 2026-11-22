@@ -138,7 +138,7 @@ function dataSection(): HTMLElement {
 function aboutSection(): HTMLElement {
   return h('section', { class: 'card' }, h('h2', null, 'Info'),
     h('p', { class: 'muted' }, 'Alle Daten bleiben auf diesem Gerät (IndexedDB). Kein Account, keine Cloud.'),
-    h('p', { class: 'muted small' }, 'Übungsdaten und Bilder: free-exercise-db (Unlicense).'));
+    h('p', { class: 'muted small' }, 'Übungsdaten und Bilder: free-exercise-db (Unlicense). Weitere Lizenzen und Quellen stehen in der README im Repository.'));
 }
 
 export async function renderSettings({ root }: RouteContext): Promise<void> {
